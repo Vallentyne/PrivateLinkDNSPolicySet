@@ -1,0 +1,252 @@
+{
+  "azureRedisCachePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Redis Cache Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureIotHubsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "IoT Hubs Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureMediaServicesKeyPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Media Services (Key Delivery) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureAppServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "App Services Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageTablePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage Table Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureMachineLearningWorkspacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Machine Learning Workspace Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageDFSPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage DFS (ADLS Gen2) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureIotDeviceupdatePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "IoT Device Update Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureMediaServicesStreamPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Media Services (Streaming) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageBlobPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage Blob Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageStaticWebPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage Static Web Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureDataFactoryPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Data Factory Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureKeyVaultPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Key Vault Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureCognitiveServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Cognitive Services Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureIotCentralPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "IoT Central Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureSignalRPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "SignalR Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureSynapseSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Synapse (SQL endpoint) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureVirtualDesktopHostpoolPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Virtual Desktop (Host Pool) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureAutomationWebhookPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Automation Account (Webhook/Hybrid Worker) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureBotServicePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Bot Service Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureDiskAccessPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Disk Access Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "effect": {
+    "type": "String",
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "defaultValue": "DeployIfNotExists"
+  },
+  "azureCognitiveSearchPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Cognitive Search Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureAcrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Container Registry (ACR) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureMachineLearningWorkspaceSecondPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Machine Learning Workspace Secondary Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureDatabricksPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Databricks Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureArcHybridResourceProviderPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Arc Hybrid Resource Provider Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureCosmosSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Cosmos DB (SQL API) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureEventGridTopicsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Grid Topics Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageQueuePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage Queue Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureEventHubNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Hub Namespace Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureServiceBusNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Service Bus Namespace Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "File Sync (Storage Sync Services) Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureStorageFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Storage File Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  },
+  "azureEventGridDomainsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Event Grid Domains Private DNS Zone ID"
+    },
+    "defaultValue": ""
+  }
+}

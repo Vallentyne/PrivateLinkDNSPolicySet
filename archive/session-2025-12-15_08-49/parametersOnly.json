@@ -1,0 +1,566 @@
+{
+  "azureFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure File Sync Private DNS Zone ID",
+      "description": "privatelink.afs.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAutomationWebhookPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Automation Webhook Private DNS Zone ID",
+      "description": "privatelink.azure-automation.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAutomationDSCHybridPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Automation DSC Hybrid Private DNS Zone ID",
+      "description": "privatelink.azure-automation.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCosmosSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cosmos DB SQL Private DNS Zone ID",
+      "description": "privatelink.documents.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCosmosMongoPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cosmos DB MongoDB Private DNS Zone ID",
+      "description": "privatelink.mongo.cosmos.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCosmosCassandraPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cosmos DB Cassandra Private DNS Zone ID",
+      "description": "privatelink.cassandra.cosmos.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCosmosGremlinPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cosmos DB Gremlin Private DNS Zone ID",
+      "description": "privatelink.gremlin.cosmos.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCosmosTablePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cosmos DB Table Private DNS Zone ID",
+      "description": "privatelink.table.cosmos.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureDataFactoryPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Data Factory Private DNS Zone ID",
+      "description": "privatelink.datafactory.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureDataFactoryPortalPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Data Factory Portal Private DNS Zone ID",
+      "description": "privatelink.adf.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureDatabricksPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Databricks Private DNS Zone ID",
+      "description": "privatelink.azuredatabricks.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureHDInsightPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure HDInsight Private DNS Zone ID",
+      "description": "privatelink.azurehdinsight.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMigratePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Migrate Private DNS Zone ID",
+      "description": "privatelink.prod.migration.windowsazure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageBlobPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Blob Private DNS Zone ID",
+      "description": "privatelink.blob.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageBlobSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Blob Secondary Private DNS Zone ID",
+      "description": "privatelink.blob.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageQueuePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Queue Private DNS Zone ID",
+      "description": "privatelink.queue.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageQueueSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Queue Secondary Private DNS Zone ID",
+      "description": "privatelink.queue.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage File Private DNS Zone ID",
+      "description": "privatelink.file.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageStaticWebPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Static Web Private DNS Zone ID",
+      "description": "privatelink.web.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageStaticWebSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Static Web Secondary Private DNS Zone ID",
+      "description": "privatelink.web.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageDFSPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage DFS Private DNS Zone ID",
+      "description": "privatelink.dfs.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageDFSSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage DFS Secondary Private DNS Zone ID",
+      "description": "privatelink.dfs.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageTablePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Table Private DNS Zone ID",
+      "description": "privatelink.table.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureStorageTableSecondaryPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Storage Table Secondary Private DNS Zone ID",
+      "description": "privatelink.table.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSynapseSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Synapse SQL Private DNS Zone ID",
+      "description": "privatelink.sql.azuresynapse.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSynapseSQLODPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Synapse SQL On-Demand Private DNS Zone ID",
+      "description": "privatelink.sql.azuresynapse.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSynapseDevPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Synapse Dev Private DNS Zone ID",
+      "description": "privatelink.dev.azuresynapse.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMediaServicesKeyPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Media Services Key Private DNS Zone ID",
+      "description": "privatelink.media.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMediaServicesLivePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Media Services Live Private DNS Zone ID",
+      "description": "privatelink.media.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMediaServicesStreamPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Media Services Stream Private DNS Zone ID",
+      "description": "privatelink.media.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId1": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Monitor Private DNS Zone ID 1",
+      "description": "privatelink.monitor.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId2": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Monitor Private DNS Zone ID 2",
+      "description": "privatelink.oms.opinsights.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId3": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Monitor Private DNS Zone ID 3",
+      "description": "privatelink.ods.opinsights.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId4": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Monitor Private DNS Zone ID 4",
+      "description": "privatelink.agentsvc.azure-automation.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId5": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Monitor Private DNS Zone ID 5",
+      "description": "privatelink.blob.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureWebPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Web PubSub Private DNS Zone ID",
+      "description": "privatelink.webpubsub.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureBatchPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Batch Private DNS Zone ID",
+      "description": "privatelink.batch.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAppPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure App Configuration Private DNS Zone ID",
+      "description": "privatelink.azconfig.io",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAsrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Site Recovery Private DNS Zone ID",
+      "description": "privatelink.siterecovery.windowsazure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureIotPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure IoT DPS Private DNS Zone ID",
+      "description": "privatelink.azure-devices-provisioning.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureKeyVaultPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Key Vault Private DNS Zone ID",
+      "description": "privatelink.vaultcore.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSignalRPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure SignalR Private DNS Zone ID",
+      "description": "privatelink.service.signalr.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAppServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure App Services Private DNS Zone ID",
+      "description": "privatelink.azurewebsites.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureEventGridTopicsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Event Grid Topics Private DNS Zone ID",
+      "description": "privatelink.eventgrid.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureDiskAccessPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Disk Access Private DNS Zone ID",
+      "description": "privatelink.blob.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCognitiveServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cognitive Services Private DNS Zone ID",
+      "description": "privatelink.cognitiveservices.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureOpenAIPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure OpenAI Private DNS Zone ID",
+      "description": "privatelink.openai.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAIServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure AI Services Private DNS Zone ID",
+      "description": "privatelink.services.ai.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureIotHubsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure IoT Hubs Private DNS Zone ID",
+      "description": "privatelink.azure-devices.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureEventGridDomainsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Event Grid Domains Private DNS Zone ID",
+      "description": "privatelink.eventgrid.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureRedisCachePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Redis Cache Private DNS Zone ID",
+      "description": "privatelink.redis.cache.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureAcrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Container Registry Private DNS Zone ID",
+      "description": "privatelink.azurecr.io",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureEventHubNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Event Hub Namespace Private DNS Zone ID",
+      "description": "privatelink.servicebus.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMachineLearningWorkspacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Machine Learning Workspace Private DNS Zone ID",
+      "description": "privatelink.api.azureml.ms",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureMachineLearningWorkspaceSecondPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Machine Learning Workspace Second Private DNS Zone ID",
+      "description": "privatelink.notebooks.azure.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureServiceBusNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Service Bus Namespace Private DNS Zone ID",
+      "description": "privatelink.servicebus.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureCognitiveSearchPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Cognitive Search Private DNS Zone ID",
+      "description": "privatelink.search.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureBotServicePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Bot Service Private DNS Zone ID",
+      "description": "privatelink.directline.botframework.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureManagedGrafanaWorkspacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Managed Grafana Workspace Private DNS Zone ID",
+      "description": "privatelink.grafana.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureVirtualDesktopHostpoolPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Virtual Desktop Hostpool Private DNS Zone ID",
+      "description": "privatelink.wvd.microsoft.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureVirtualDesktopWorkspacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Virtual Desktop Workspace Private DNS Zone ID",
+      "description": "privatelink.wvd.microsoft.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureIotDeviceupdatePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure IoT Device Update Private DNS Zone ID",
+      "description": "privatelink.azure-devices.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureArcGuestconfigurationPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Arc Guest Configuration Private DNS Zone ID",
+      "description": "privatelink.guestconfiguration.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureArcHybridResourceProviderPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Arc Hybrid Resource Provider Private DNS Zone ID",
+      "description": "privatelink.his.arc.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureArcKubernetesConfigurationPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Arc Kubernetes Configuration Private DNS Zone ID",
+      "description": "privatelink.dp.kubernetesconfiguration.azure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureIotCentralPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure IoT Central Private DNS Zone ID",
+      "description": "privatelink.azureiotcentral.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSiteRecoveryBackupPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Site Recovery Backup Private DNS Zone ID",
+      "description": "privatelink.<region>.backup.windowsazure.com",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSiteRecoveryBlobPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Site Recovery Blob Private DNS Zone ID",
+      "description": "privatelink.blob.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "azureSiteRecoveryQueuePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Azure Site Recovery Queue Private DNS Zone ID",
+      "description": "privatelink.queue.core.windows.net",
+      "strongType": "Microsoft.Network/privateDnsZones"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  }
+}

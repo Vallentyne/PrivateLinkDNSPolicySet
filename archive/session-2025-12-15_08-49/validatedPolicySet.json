@@ -1,0 +1,997 @@
+{
+  "properties": {
+    "displayName": "Deploy Private DNS Zones for Azure Services",
+    "description": "Comprehensive policy set that deploys private DNS zones for Azure PaaS services that support private endpoints. This is a validated set of policies that exist in Azure.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "azureFilePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure File Sync",
+          "description": "The resource ID of the private DNS zone for privatelink.afs.azure.net"
+        }
+      },
+      "azureAutomationWebhookPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Automation Webhook",
+          "description": "The resource ID of the private DNS zone for privatelink.azure-automation.net"
+        }
+      },
+      "azureCosmosSQLPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Cosmos DB SQL API",
+          "description": "The resource ID of the private DNS zone for privatelink.documents.azure.com"
+        }
+      },
+      "azureDataFactoryPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Data Factory",
+          "description": "The resource ID of the private DNS zone for privatelink.datafactory.azure.net"
+        }
+      },
+      "azureDataFactoryPortalPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Data Factory Portal",
+          "description": "The resource ID of the private DNS zone for privatelink.adf.azure.com"
+        }
+      },
+      "azureHDInsightPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure HDInsight",
+          "description": "The resource ID of the private DNS zone for privatelink.azurehdinsight.net"
+        }
+      },
+      "azureMigratePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Migrate",
+          "description": "The resource ID of the private DNS zone for privatelink.prod.migration.windowsazure.com"
+        }
+      },
+      "azureStorageBlobPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Blob",
+          "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+        }
+      },
+      "azureStorageBlobSecPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Blob Secondary",
+          "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+        }
+      },
+      "azureStorageQueuePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Queue",
+          "description": "The resource ID of the private DNS zone for privatelink.queue.core.windows.net"
+        }
+      },
+      "azureStorageQueueSecPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Queue Secondary",
+          "description": "The resource ID of the private DNS zone for privatelink.queue.core.windows.net"
+        }
+      },
+      "azureStorageFilePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage File",
+          "description": "The resource ID of the private DNS zone for privatelink.file.core.windows.net"
+        }
+      },
+      "azureStorageStaticWebPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Static Web",
+          "description": "The resource ID of the private DNS zone for privatelink.web.core.windows.net"
+        }
+      },
+      "azureStorageStaticWebSecPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Static Web Secondary",
+          "description": "The resource ID of the private DNS zone for privatelink.web.core.windows.net"
+        }
+      },
+      "azureStorageDFSPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage DFS",
+          "description": "The resource ID of the private DNS zone for privatelink.dfs.core.windows.net"
+        }
+      },
+      "azureStorageDFSSecPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage DFS Secondary",
+          "description": "The resource ID of the private DNS zone for privatelink.dfs.core.windows.net"
+        }
+      },
+      "azureStorageTablePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Table",
+          "description": "The resource ID of the private DNS zone for privatelink.table.core.windows.net"
+        }
+      },
+      "azureStorageTableSecondaryPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Storage Table Secondary",
+          "description": "The resource ID of the private DNS zone for privatelink.table.core.windows.net"
+        }
+      },
+      "azureSynapseSQLPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Synapse SQL",
+          "description": "The resource ID of the private DNS zone for privatelink.sql.azuresynapse.net"
+        }
+      },
+      "azureSynapseSQLODPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Synapse SQL OnDemand",
+          "description": "The resource ID of the private DNS zone for privatelink.sql.azuresynapse.net"
+        }
+      },
+      "azureSynapseDevPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Synapse Dev",
+          "description": "The resource ID of the private DNS zone for privatelink.dev.azuresynapse.net"
+        }
+      },
+      "azureMediaServicesKeyPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Media Services Key Delivery",
+          "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+        }
+      },
+      "azureMediaServicesLivePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Media Services Live Event",
+          "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+        }
+      },
+      "azureMediaServicesStreamPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Media Services Streaming Endpoint",
+          "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+        }
+      },
+      "azureMonitorPrivateDnsZoneId1": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 1 for Azure Monitor",
+          "description": "The resource ID of the private DNS zone for privatelink.monitor.azure.com"
+        }
+      },
+      "azureMonitorPrivateDnsZoneId2": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 2 for Azure Monitor",
+          "description": "The resource ID of the private DNS zone for privatelink.oms.opinsights.azure.com"
+        }
+      },
+      "azureMonitorPrivateDnsZoneId3": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 3 for Azure Monitor",
+          "description": "The resource ID of the private DNS zone for privatelink.ods.opinsights.azure.com"
+        }
+      },
+      "azureMonitorPrivateDnsZoneId4": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 4 for Azure Monitor",
+          "description": "The resource ID of the private DNS zone for privatelink.agentsvc.azure-automation.net"
+        }
+      },
+      "azureMonitorPrivateDnsZoneId5": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 5 for Azure Monitor",
+          "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+        }
+      },
+      "azureWebPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Web PubSub",
+          "description": "The resource ID of the private DNS zone for privatelink.webpubsub.azure.com"
+        }
+      },
+      "azureBatchPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Batch",
+          "description": "The resource ID of the private DNS zone for privatelink.batch.azure.com"
+        }
+      },
+      "azureAppPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure App Configuration",
+          "description": "The resource ID of the private DNS zone for privatelink.azconfig.io"
+        }
+      },
+      "azureAsrPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Site Recovery",
+          "description": "The resource ID of the private DNS zone for privatelink.siterecovery.windowsazure.com"
+        }
+      },
+      "azureIotPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure IoT Hub Device Provisioning Service",
+          "description": "The resource ID of the private DNS zone for privatelink.azure-devices-provisioning.net"
+        }
+      },
+      "azureKeyVaultPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Key Vault",
+          "description": "The resource ID of the private DNS zone for privatelink.vaultcore.azure.net"
+        }
+      },
+      "azureSignalRPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure SignalR",
+          "description": "The resource ID of the private DNS zone for privatelink.service.signalr.net"
+        }
+      },
+      "azureAppServicesPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure App Services",
+          "description": "The resource ID of the private DNS zone for privatelink.azurewebsites.net"
+        }
+      },
+      "azureEventGridTopicsPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Event Grid Topics",
+          "description": "The resource ID of the private DNS zone for privatelink.eventgrid.azure.net"
+        }
+      },
+      "azureDiskAccessPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Disk Access",
+          "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+        }
+      },
+      "azureCognitiveServicesPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Cognitive Services",
+          "description": "The resource ID of the private DNS zone for privatelink.cognitiveservices.azure.com"
+        }
+      },
+      "azureOpenAIPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure OpenAI",
+          "description": "The resource ID of the private DNS zone for privatelink.openai.azure.com"
+        }
+      },
+      "azureAIServicesPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure AI Services",
+          "description": "The resource ID of the private DNS zone for privatelink.services.ai.azure.com"
+        }
+      },
+      "azureIotHubsPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure IoT Hubs",
+          "description": "The resource ID of the private DNS zone for privatelink.azure-devices.net"
+        }
+      },
+      "azureEventGridDomainsPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Event Grid Domains",
+          "description": "The resource ID of the private DNS zone for privatelink.eventgrid.azure.net"
+        }
+      },
+      "azureRedisCachePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Redis Cache",
+          "description": "The resource ID of the private DNS zone for privatelink.redis.cache.windows.net"
+        }
+      },
+      "azureAcrPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Container Registry",
+          "description": "The resource ID of the private DNS zone for privatelink.azurecr.io"
+        }
+      },
+      "azureEventHubNamespacePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Event Hub Namespace",
+          "description": "The resource ID of the private DNS zone for privatelink.servicebus.windows.net"
+        }
+      },
+      "azureMachineLearningWorkspacePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Machine Learning Workspace",
+          "description": "The resource ID of the private DNS zone for privatelink.api.azureml.ms"
+        }
+      },
+      "azureMachineLearningWorkspaceSecondPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID 2 for Azure Machine Learning Workspace",
+          "description": "The resource ID of the private DNS zone for privatelink.notebooks.azure.net"
+        }
+      },
+      "azureServiceBusNamespacePrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Service Bus Namespace",
+          "description": "The resource ID of the private DNS zone for privatelink.servicebus.windows.net"
+        }
+      },
+      "azureCognitiveSearchPrivateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone ID for Azure Cognitive Search",
+          "description": "The resource ID of the private DNS zone for privatelink.search.windows.net"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-File-Sync",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/06695360-db88-47f6-b976-7500d4297475",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureFilePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Automation-Webhook",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6dd01e4f-1be1-4e80-9d0b-d109e04cb064",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAutomationWebhookPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Cosmos-SQL",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a63cc0bd-cda4-4178-b705-37dc439d3e0f",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureCosmosSQLPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-DataFactory",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86cd96e1-1745-420d-94d4-d3f2fe415aa4",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureDataFactoryPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-DataFactory-Portal",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6b8b2397-9339-4cea-8b7c-8b0c0c5a2f60",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureDataFactoryPortalPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-HDInsight",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/43d6e3bd-fc6a-4b44-8b4d-ac1f52f84e8b",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureHDInsightPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Migrate",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7590a335-57cf-4c95-babd-adc564f8959e",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureMigratePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Blob",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/75973700-529f-4de2-b794-fb9b6781b6b0",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageBlobPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Blob-Sec",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d847d34b-9337-4e2d-99a5-767e5ac9c582",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageBlobSecPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Queue",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bcff79fb-2b0d-47c9-97e5-3023479b00d1",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageQueuePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Queue-Sec",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/da9b4ae8-5ddc-48c5-b9c0-25f8abf7a3d6",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageQueueSecPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-File",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6df98d03-368a-4438-8730-a93c4d7693d6",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageFilePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-StaticWeb",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9adab2a5-05ba-4fbd-831a-5bf958d04218",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageStaticWebPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-StaticWeb-Sec",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d19ae5f1-b303-4b82-9ca8-7682749faf0c",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageStaticWebSecPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-DFS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83c6fe0f-2316-444a-99a1-1ecd8a7872ca",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageDFSPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-DFS-Sec",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/90bd4cb3-9f59-45f7-a6ca-f69db2726671",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageDFSSecPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Table",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/028bbd88-e9b5-461f-9424-a1b63a7bee1a",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageTablePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Storage-Table-Sec",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c1d634a5-f73d-4cdd-889f-2cc7006eb47f",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureStorageTableSecondaryPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Synapse-SQL",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e5ed725-f16c-478b-bd4b-7bfa2f7940b9",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureSynapseSQLPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Synapse-SQL-OD",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/13c84abc-0c38-4997-ba35-c3d1aa8d3c86",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureSynapseSQLODPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Synapse-Dev",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e7ca9cd-7c3d-4722-a5f8-79d1c7593f6d",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureSynapseDevPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-MediaServices-Key",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b4a7f6c1-585e-4177-ad5b-c2c93f4bb991",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureMediaServicesKeyPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-MediaServices-Live",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a48d9e19-b6a3-4726-a288-b0e1146c2381",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureMediaServicesLivePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-MediaServices-Stream",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a9b426fe-8856-4945-8600-18c5dd1cca2a",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureMediaServicesStreamPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Monitor-1",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83a0a923-11a4-41c2-a93e-6d3407932f93",
+        "parameters": {
+          "privateDnsZoneId1": {
+            "value": "[parameters('azureMonitorPrivateDnsZoneId1')]"
+          },
+          "privateDnsZoneId2": {
+            "value": "[parameters('azureMonitorPrivateDnsZoneId2')]"
+          },
+          "privateDnsZoneId3": {
+            "value": "[parameters('azureMonitorPrivateDnsZoneId3')]"
+          },
+          "privateDnsZoneId4": {
+            "value": "[parameters('azureMonitorPrivateDnsZoneId4')]"
+          },
+          "privateDnsZoneId5": {
+            "value": "[parameters('azureMonitorPrivateDnsZoneId5')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Web",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0eb8c575-589c-4afc-b0e6-7e6f989f01f5",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureWebPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Batch",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4ec38ebc-381f-4e25-9f61-b86e51d7aa0f",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureBatchPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-App",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7d0e2da6-e7af-4e60-bd6e-06e561e4f4f7",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAppPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-SiteRecovery",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/942bd215-1a66-44be-af65-6a1c0318dbe2",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAsrPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-IoT-DPS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d8f7ea08-7232-4ac0-ad75-7c6a0fcbd72f",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureIotPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-KeyVault",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac673a9a-f77d-4846-b2d8-a57f8e1c01d4",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureKeyVaultPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-SignalR",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0e86710-7fb7-4a6c-a064-32e9b829509e",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureSignalRPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-AppServices",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b318f84a-b872-429b-ac6d-a01b96814452",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAppServicesPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-EventGridTopics",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/baf19753-7502-405f-8745-370519b20483",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureEventGridTopicsPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-DiskAccess",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bc05b96c-0b36-4ca9-82f0-5c53f96ce05a",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureDiskAccessPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-CognitiveServices",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c4bc6f10-cb41-49eb-b000-d5ab82e2a091",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureCognitiveServicesPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-OpenAI",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureOpenAIPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-AIServices",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6b2ebffb-8c34-4462-a2c0-6f47ad925b1f",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAIServicesPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-IoTHubs",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c99ce9c1-ced7-4c3e-aca0-10e69ce0cb02",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureIotHubsPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-EventGridDomains",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d389df0a-e0d7-4607-833c-75a6fdac2c2d",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureEventGridDomainsPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-RedisCache",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e016b22b-e0eb-436d-8fd7-160c4eaed6e2",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureRedisCachePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-ACR",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e9585a95-5b8c-4d03-b193-dc7eb5ac4c32",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureAcrPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-EventHubNamespace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ed66d4f5-8220-45dc-ab4a-20d1749c74e6",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureEventHubNamespacePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-MachineLearning",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ee40564d-486e-4f68-a5ca-7a621edae0fb",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureMachineLearningWorkspacePrivateDnsZoneId')]"
+          },
+          "secondPrivateDnsZoneId": {
+            "value": "[parameters('azureMachineLearningWorkspaceSecondPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-ServiceBusNamespace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f0fcf93c-c063-4071-9668-c47474bd3564",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureServiceBusNamespacePrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-CognitiveSearch",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/fbc14a67-53e4-4932-abcc-2049c6706009",
+        "parameters": {
+          "privateDnsZoneId": {
+            "value": "[parameters('azureCognitiveSearchPrivateDnsZoneId')]"
+          },
+          "effect": {
+            "value": "[parameters('effect')]"
+          }
+        },
+        "groupNames": []
+      }
+    ],
+    "policyDefinitionGroups": []
+  }
+}

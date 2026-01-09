@@ -1,0 +1,70 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "azureKeyVaultPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Key Vault",
+      "description": "The resource ID of the private DNS zone for privatelink.vaultcore.azure.net"
+    }
+  },
+  "azureStorageBlobPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Blob",
+      "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+    }
+  },
+  "azureStorageFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage File",
+      "description": "The resource ID of the private DNS zone for privatelink.file.core.windows.net"
+    }
+  },
+  "azureStorageQueuePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Queue",
+      "description": "The resource ID of the private DNS zone for privatelink.queue.core.windows.net"
+    }
+  },
+  "azureStorageTablePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Table",
+      "description": "The resource ID of the private DNS zone for privatelink.table.core.windows.net"
+    }
+  },
+  "azureCognitiveServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Cognitive Services",
+      "description": "The resource ID of the private DNS zone for privatelink.cognitiveservices.azure.com"
+    }
+  },
+  "azureAppServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure App Services",
+      "description": "The resource ID of the private DNS zone for privatelink.azurewebsites.net"
+    }
+  },
+  "azureAcrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Container Registry",
+      "description": "The resource ID of the private DNS zone for privatelink.azurecr.io"
+    }
+  }
+}

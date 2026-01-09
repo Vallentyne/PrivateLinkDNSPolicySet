@@ -1,0 +1,371 @@
+{
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "defaultValue": "DeployIfNotExists"
+  },
+  "azureFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure File Sync",
+      "description": "The resource ID of the private DNS zone for privatelink.afs.azure.net"
+    }
+  },
+  "azureAutomationWebhookPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Automation Webhook",
+      "description": "The resource ID of the private DNS zone for privatelink.azure-automation.net"
+    }
+  },
+  "azureCosmosSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Cosmos DB SQL API",
+      "description": "The resource ID of the private DNS zone for privatelink.documents.azure.com"
+    }
+  },
+  "azureDataFactoryPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Data Factory",
+      "description": "The resource ID of the private DNS zone for privatelink.datafactory.azure.net"
+    }
+  },
+  "azureDataFactoryPortalPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Data Factory Portal",
+      "description": "The resource ID of the private DNS zone for privatelink.adf.azure.com"
+    }
+  },
+  "azureHDInsightPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure HDInsight",
+      "description": "The resource ID of the private DNS zone for privatelink.azurehdinsight.net"
+    }
+  },
+  "azureMigratePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Migrate",
+      "description": "The resource ID of the private DNS zone for privatelink.prod.migration.windowsazure.com"
+    }
+  },
+  "azureStorageBlobPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Blob",
+      "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+    }
+  },
+  "azureStorageBlobSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Blob Secondary",
+      "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+    }
+  },
+  "azureStorageQueuePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Queue",
+      "description": "The resource ID of the private DNS zone for privatelink.queue.core.windows.net"
+    }
+  },
+  "azureStorageQueueSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Queue Secondary",
+      "description": "The resource ID of the private DNS zone for privatelink.queue.core.windows.net"
+    }
+  },
+  "azureStorageFilePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage File",
+      "description": "The resource ID of the private DNS zone for privatelink.file.core.windows.net"
+    }
+  },
+  "azureStorageStaticWebPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Static Web",
+      "description": "The resource ID of the private DNS zone for privatelink.web.core.windows.net"
+    }
+  },
+  "azureStorageStaticWebSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Static Web Secondary",
+      "description": "The resource ID of the private DNS zone for privatelink.web.core.windows.net"
+    }
+  },
+  "azureStorageDFSPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage DFS",
+      "description": "The resource ID of the private DNS zone for privatelink.dfs.core.windows.net"
+    }
+  },
+  "azureStorageDFSSecPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage DFS Secondary",
+      "description": "The resource ID of the private DNS zone for privatelink.dfs.core.windows.net"
+    }
+  },
+  "azureStorageTablePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Table",
+      "description": "The resource ID of the private DNS zone for privatelink.table.core.windows.net"
+    }
+  },
+  "azureStorageTableSecondaryPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Storage Table Secondary",
+      "description": "The resource ID of the private DNS zone for privatelink.table.core.windows.net"
+    }
+  },
+  "azureSynapseSQLPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Synapse SQL",
+      "description": "The resource ID of the private DNS zone for privatelink.sql.azuresynapse.net"
+    }
+  },
+  "azureSynapseSQLODPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Synapse SQL OnDemand",
+      "description": "The resource ID of the private DNS zone for privatelink.sql.azuresynapse.net"
+    }
+  },
+  "azureSynapseDevPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Synapse Dev",
+      "description": "The resource ID of the private DNS zone for privatelink.dev.azuresynapse.net"
+    }
+  },
+  "azureMediaServicesKeyPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Media Services Key Delivery",
+      "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+    }
+  },
+  "azureMediaServicesLivePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Media Services Live Event",
+      "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+    }
+  },
+  "azureMediaServicesStreamPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Media Services Streaming Endpoint",
+      "description": "The resource ID of the private DNS zone for privatelink.media.azure.net"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId1": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 1 for Azure Monitor",
+      "description": "The resource ID of the private DNS zone for privatelink.monitor.azure.com"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId2": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 2 for Azure Monitor",
+      "description": "The resource ID of the private DNS zone for privatelink.oms.opinsights.azure.com"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId3": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 3 for Azure Monitor",
+      "description": "The resource ID of the private DNS zone for privatelink.ods.opinsights.azure.com"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId4": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 4 for Azure Monitor",
+      "description": "The resource ID of the private DNS zone for privatelink.agentsvc.azure-automation.net"
+    }
+  },
+  "azureMonitorPrivateDnsZoneId5": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 5 for Azure Monitor",
+      "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+    }
+  },
+  "azureWebPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Web PubSub",
+      "description": "The resource ID of the private DNS zone for privatelink.webpubsub.azure.com"
+    }
+  },
+  "azureBatchPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Batch",
+      "description": "The resource ID of the private DNS zone for privatelink.batch.azure.com"
+    }
+  },
+  "azureAppPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure App Configuration",
+      "description": "The resource ID of the private DNS zone for privatelink.azconfig.io"
+    }
+  },
+  "azureAsrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Site Recovery",
+      "description": "The resource ID of the private DNS zone for privatelink.siterecovery.windowsazure.com"
+    }
+  },
+  "azureIotPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure IoT Hub Device Provisioning Service",
+      "description": "The resource ID of the private DNS zone for privatelink.azure-devices-provisioning.net"
+    }
+  },
+  "azureKeyVaultPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Key Vault",
+      "description": "The resource ID of the private DNS zone for privatelink.vaultcore.azure.net"
+    }
+  },
+  "azureSignalRPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure SignalR",
+      "description": "The resource ID of the private DNS zone for privatelink.service.signalr.net"
+    }
+  },
+  "azureAppServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure App Services",
+      "description": "The resource ID of the private DNS zone for privatelink.azurewebsites.net"
+    }
+  },
+  "azureEventGridTopicsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Event Grid Topics",
+      "description": "The resource ID of the private DNS zone for privatelink.eventgrid.azure.net"
+    }
+  },
+  "azureDiskAccessPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Disk Access",
+      "description": "The resource ID of the private DNS zone for privatelink.blob.core.windows.net"
+    }
+  },
+  "azureCognitiveServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Cognitive Services",
+      "description": "The resource ID of the private DNS zone for privatelink.cognitiveservices.azure.com"
+    }
+  },
+  "azureOpenAIPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure OpenAI",
+      "description": "The resource ID of the private DNS zone for privatelink.openai.azure.com"
+    }
+  },
+  "azureAIServicesPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure AI Services",
+      "description": "The resource ID of the private DNS zone for privatelink.services.ai.azure.com"
+    }
+  },
+  "azureIotHubsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure IoT Hubs",
+      "description": "The resource ID of the private DNS zone for privatelink.azure-devices.net"
+    }
+  },
+  "azureEventGridDomainsPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Event Grid Domains",
+      "description": "The resource ID of the private DNS zone for privatelink.eventgrid.azure.net"
+    }
+  },
+  "azureRedisCachePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Redis Cache",
+      "description": "The resource ID of the private DNS zone for privatelink.redis.cache.windows.net"
+    }
+  },
+  "azureAcrPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Container Registry",
+      "description": "The resource ID of the private DNS zone for privatelink.azurecr.io"
+    }
+  },
+  "azureEventHubNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Event Hub Namespace",
+      "description": "The resource ID of the private DNS zone for privatelink.servicebus.windows.net"
+    }
+  },
+  "azureMachineLearningWorkspacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Machine Learning Workspace",
+      "description": "The resource ID of the private DNS zone for privatelink.api.azureml.ms"
+    }
+  },
+  "azureMachineLearningWorkspaceSecondPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID 2 for Azure Machine Learning Workspace",
+      "description": "The resource ID of the private DNS zone for privatelink.notebooks.azure.net"
+    }
+  },
+  "azureServiceBusNamespacePrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Service Bus Namespace",
+      "description": "The resource ID of the private DNS zone for privatelink.servicebus.windows.net"
+    }
+  },
+  "azureCognitiveSearchPrivateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID for Azure Cognitive Search",
+      "description": "The resource ID of the private DNS zone for privatelink.search.windows.net"
+    }
+  }
+}

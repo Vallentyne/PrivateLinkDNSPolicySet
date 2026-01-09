@@ -1,0 +1,21 @@
+{
+  "privateDnsZoneId": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Private DNS Zone ID",
+      "description": "The resource ID of the private DNS zone to use for all Azure services"
+    }
+  },
+  "effect": {
+    "type": "String",
+    "allowedValues": [
+      "DeployIfNotExists",
+      "Disabled"
+    ],
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "defaultValue": "DeployIfNotExists"
+  }
+}
