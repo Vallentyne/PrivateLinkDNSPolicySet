@@ -3,7 +3,7 @@
     "contentVersion": "1.2.0.0",
     "parameters": {
         "policyDefinitionManagementGroupId": {
-            "value": "SLZ"
+            "value": "alz"
         },
         "privateDNSZones": {
             "value": [
@@ -314,6 +314,51 @@
                     ]
                 },
                 {
+                    "privateLinkServiceNamespace": "Microsoft.SignalRService/signalR",
+                    "zone": "privatelink.service.signalr.net",
+                    "filterLocationLike": "*",
+                    "groupId": "signalR",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.service.signalr.net"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Devices/IotHubs",
+                    "zone": "privatelink.azure-devices.net",
+                    "filterLocationLike": "*",
+                    "groupId": "iotHub",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.azure-devices.net"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Compute/diskAccesses",
+                    "zone": "privatelink.blob.core.windows.net",
+                    "filterLocationLike": "*",
+                    "groupId": "diskAccess",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.blob.core.windows.net"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.DeviceUpdate/accounts",
+                    "zone": "privatelink.azure-devices.net",
+                    "filterLocationLike": "*",
+                    "groupId": "deviceUpdate",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.azure-devices.net"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.IoTCentral/IoTApps",
+                    "zone": "privatelink.azureiotcentral.com",
+                    "filterLocationLike": "*",
+                    "groupId": "iotApp",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.azureiotcentral.com"
+                    ]
+                },
+                {
                     "privateLinkServiceNamespace": "Microsoft.RecoveryServices/vaults",
                     "zone": "privatelink.cnc.backup.windowsazure.com",
                     "filterLocationLike": "canadacentral",
@@ -459,6 +504,42 @@
                     "groupId": "fhir",
                     "privateDnsZoneConfigs": [
                         "privatelink.azurehealthcareapis.com"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
+                    "zone": "privatelink.canadacentral.batch.azure.com",
+                    "filterLocationLike": "canadacentral",
+                    "groupId": "batchAccount",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.canadacentral.batch.azure.com"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
+                    "zone": "canadacentral.service.batch.azure.com",
+                    "filterLocationLike": "canadacentral",
+                    "groupId": "nodeManagement",
+                    "privateDnsZoneConfigs": [
+                        "canadacentral.service.batch.azure.com"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
+                    "zone": "privatelink.canadaeast.batch.azure.com",
+                    "filterLocationLike": "canadaeast",
+                    "groupId": "batchAccount",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.canadaeast.batch.azure.com"
+                    ]
+                },
+                {
+                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
+                    "zone": "canadaeast.service.batch.azure.com",
+                    "filterLocationLike": "canadaeast",
+                    "groupId": "nodeManagement",
+                    "privateDnsZoneConfigs": [
+                        "canadaeast.service.batch.azure.com"
                     ]
                 }
             ]
