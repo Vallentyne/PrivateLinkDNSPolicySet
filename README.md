@@ -72,10 +72,12 @@ This ensures Azure AI Foundry endpoints work correctly for all service scenarios
 
 ### Deploy the Policy Set
 
+Be sure to edit the pubsecDNS.parameters.json file with the managementgroupID that should be used to contain the definition.  The deployment should also refer to this same management group ID, as below.
+
 ```powershell
 # Deploy the policies and policy set
 New-AzManagementGroupDeployment `
-  -ManagementGroupId "SLZ" `
+  -ManagementGroupId "alz" `
   -Location "canadacentral" `
   -TemplateFile ".\pubsecDNS.bicep" `
   -TemplateParameterFile ".\pubsecDNS.parameters.json" `
