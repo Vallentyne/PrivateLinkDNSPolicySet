@@ -1,11 +1,11 @@
 # Git Push Script
-Set-Location "C:\Code\JDCP\DNS"
+Set-Location "C:\Code\PrivateLinkDNSPolicySet"
 
 Write-Host "`nAdding files..." -ForegroundColor Cyan
 git add .
 
 Write-Host "`nCommitting changes..." -ForegroundColor Cyan
-git commit -m "v4: Complete parity with Microsoft built-in plus enhancements - 59 total policies (25 built-in + 34 custom)"
+git commit -m "v4: Update README - 60 total policies (26 built-in + 34 custom)"
 
 Write-Host "`nPushing to GitHub..." -ForegroundColor Cyan
 git push
