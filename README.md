@@ -118,7 +118,7 @@ $assignment = Get-AzPolicyAssignment -Name "dns-private-endpoints" -Scope "/prov
 
 # Grant permissions
 New-AzRoleAssignment `
-  -ObjectId $assignment.Identity.PrincipalId `
+  -ObjectId $assignment.IdentityPrincipalId `
   -RoleDefinitionName "Private DNS Zone Contributor" `
   -Scope "/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>"
 ```
