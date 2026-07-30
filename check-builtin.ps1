@@ -25,6 +25,7 @@ $builtInMap = @{
   'Microsoft.StorageSync/storageSyncServices-afs' = $true
   'Microsoft.DeviceUpdate/accounts-deviceUpdate' = $true
   'Microsoft.IoTCentral/IoTApps-iotApp' = $true
+  'Microsoft.AppConfiguration/configurationStores-configurationStores' = $true
 }
 
 Write-Host "`n=== Built-In Policy Usage Check ===" -ForegroundColor Cyan

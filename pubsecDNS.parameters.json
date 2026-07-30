@@ -368,6 +368,15 @@
                     ]
                 },
                 {
+                    "privateLinkServiceNamespace": "Microsoft.AppConfiguration/configurationStores",
+                    "zone": "privatelink.azconfig.io",
+                    "filterLocationLike": "*",
+                    "groupId": "configurationStores",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.azconfig.io"
+                    ]
+                },
+                {
                     "privateLinkServiceNamespace": "Microsoft.RecoveryServices/vaults",
                     "zone": "privatelink.cnc.backup.windowsazure.com",
                     "filterLocationLike": "canadacentral",

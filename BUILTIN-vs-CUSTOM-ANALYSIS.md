@@ -1,11 +1,11 @@
 # Built-In vs Custom Policy Analysis - v4
 
 ## Deployment Summary
-- **Total Policies: 59**
-- **Built-in Policies: 25**
+- **Total Policies: 60**
+- **Built-in Policies: 26**
 - **Custom Policies: 34**
 
-## Built-In Policies Used (24 unique services, 25 configurations)
+## Built-In Policies Used (25 unique services, 26 configurations)
 
 ### Storage & File Services (7)
 1. ✅ **KeyVault** - privatelink.vaultcore.azure.net
@@ -42,6 +42,9 @@
 ### Cache & Search (2)
 23. ✅ **Redis Cache** - privatelink.redis.cache.windows.net
 24. ✅ **Cognitive Search** - privatelink.search.windows.net
+
+### Configuration (1)
+25. ✅ **App Configuration** - privatelink.azconfig.io
 
 ---
 
