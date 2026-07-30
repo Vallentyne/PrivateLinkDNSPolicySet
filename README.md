@@ -18,9 +18,9 @@ When you create a private endpoint in Azure, you need to create DNS records in p
 
 ## Architecture
 
-The policy set uses a hybrid approach with **60 total policy configurations**:
+The policy set uses a hybrid approach with **61 total policy configurations**:
 
-### Built-In Policies (26 configurations)
+### Built-In Policies (25 configurations)
 Uses Microsoft's native Azure Policy definitions for common services:
 - Storage Accounts (blob, file, queue, table, dfs, web)
 - Key Vault
@@ -36,8 +36,9 @@ Uses Microsoft's native Azure Policy definitions for common services:
 - Compute Disk Access
 - IoT Hub, IoT Central, Device Update
 - SignalR
+- App Configuration
 
-### Custom Policies (34 configurations)
+### Custom Policies (36 configurations)
 Deploys custom policy definitions for services without built-in policies or requiring special configuration:
 - Azure Automation (Webhook, DSC and Hybrid Worker)
 - Azure SQL Database
@@ -187,13 +188,32 @@ The custom policy template (`templates/DNS-PrivateEndpoints/azurepolicy.json`) u
 
 ### Adding New Services
 
-1. Check if built-in policy exists:
-   - If yes: Add to `builtInPolicyMap` in `pubsecDNS.bicep`
-   - If no: Add to `privateDNSZones` array in parameters file (will use custom policy)
+`service-catalog.json` is the **single source of truth** for all supported services. Follow this workflow:
 
-2. For multi-zone services (like AI Foundry):
-   - Include all zones in `privateDnsZoneConfigs` array
-   - The custom policy template handles multiple zones automatically
+1. Add an entry to `service-catalog.json` with `logicalService`, `resourceNamespace`, `groupId`, `dnsZone`, `filterLocationLike`, `policyType` (`builtin` or `custom`), and `builtInPolicyId` (if builtin).
+2. Add the corresponding zone entry to `pubsecDNS.parameters.json`.
+3. If `policyType` is `builtin`, add the policy GUID to `builtInPolicyMap` in `pubsecDNS.bicep`.
+4. Run `Test-PolicyCoverage.ps1` — it validates all three files are in sync and fails with a clear error if anything is missing.
+
+For multi-zone services (like AI Foundry):
+- Include all zones in `privateDnsZoneConfigs` array in the parameters entry
+- The custom policy template handles multiple zones automatically
+
+### Validating Coverage
+
+Run the validation script before every deployment:
+
+```powershell
+.\Test-PolicyCoverage.ps1
+```
+
+This performs four checks:
+- **Check 1**: Every catalog entry exists in `pubsecDNS.parameters.json`
+- **Check 2**: Every parameters zone is documented in the catalog (no undocumented additions)
+- **Check 3**: Every `builtin` catalog entry is in `pubsecDNS.bicep`'s `builtInPolicyMap` with the correct policy GUID
+- **Check 4**: No orphaned entries in the Bicep map
+
+Exits with code `0` on full pass, `1` on any failure (safe to use in CI/CD pipelines).
 
 ### Updating Policies
 
@@ -249,15 +269,17 @@ az network private-endpoint dns-zone-group list `
 ## Files
 
 - **pubsecDNS.bicep**: Main Bicep template deploying policies and policy set
-- **pubsecDNS.parameters.json**: Configuration of DNS zones (60 entries)
+- **pubsecDNS.parameters.json**: Configuration of DNS zones (61 entries)
+- **service-catalog.json**: Canonical service catalog — single source of truth for all 61 supported services with policy type, DNS zone, and built-in policy ID
+- **Test-PolicyCoverage.ps1**: Validation script — cross-checks catalog, parameters, and Bicep map for consistency (CI-safe, exits non-zero on failure)
 - **templates/DNS-PrivateEndpoints/azurepolicy.json**: Custom policy template supporting multi-zone configuration
 
 ## Output
 
 After deployment, the template outputs:
-- `builtInPolicyCount`: Number of policies using Microsoft built-in definitions (26)
-- `customPolicyCount`: Number of custom policies deployed (34)
-- `totalPolicyCount`: Total DNS zone configurations (60)
+- `builtInPolicyCount`: Number of policies using Microsoft built-in definitions (25)
+- `customPolicyCount`: Number of custom policies deployed (36)
+- `totalPolicyCount`: Total DNS zone configurations (61)
 
 ## License
 

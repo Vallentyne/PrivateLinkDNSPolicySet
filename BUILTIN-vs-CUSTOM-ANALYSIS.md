@@ -1,11 +1,11 @@
 # Built-In vs Custom Policy Analysis - v4
 
 ## Deployment Summary
-- **Total Policies: 60**
-- **Built-in Policies: 26**
-- **Custom Policies: 34**
+- **Total Policies: 61**
+- **Built-in Policies: 25**
+- **Custom Policies: 36**
 
-## Built-In Policies Used (25 unique services, 26 configurations)
+## Built-In Policies Used (25 unique services, 25 configurations)
 
 ### Storage & File Services (7)
 1. ✅ **KeyVault** - privatelink.vaultcore.azure.net
@@ -48,7 +48,7 @@
 
 ---
 
-## Custom Policies Required (34 configurations)
+## Custom Policies Required (36 configurations)
 
 ### Why Custom? Reasons:
 - **Multi-zone requirements** (AI Foundry, Machine Learning secondary)
