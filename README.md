@@ -92,11 +92,25 @@ New-AzManagementGroupDeployment `
   -policyVersion "vX"
 ```
 
-### Assign the Policy Set
+### Assign the Policy Set (Recommended: Azure Portal)
+
+Assign the initiative through **Azure Policy > Assignments** in the Azure portal. The portal creates the managed identity and automatically grants the roles declared by the initiative's policy definitions at the assignment scope.
+
+1. Select the `Custom - Central DNS for Private Endpoints <version>` initiative.
+2. Set the assignment scope to the target management group.
+3. Provide the central Private DNS zone subscription and resource group parameters.
+4. On the **Remediation** tab, select **System assigned managed identity** and choose an identity location.
+5. Create the assignment, then verify the identity's role assignments as described below.
+
+The portal is recommended because assignments created with PowerShell, the Azure CLI, an SDK, or infrastructure as code do not automatically grant the roles listed in `roleDefinitionIds`.
+
+#### PowerShell Alternative
+
+If automation is required, create the assignment with a managed identity and grant both required roles manually:
 
 ```powershell
 # Assign to management group with managed identity
-New-AzPolicyAssignment `
+$assignment = New-AzPolicyAssignment `
   -Name "dns-private-endpoints" `
   -DisplayName "Central DNS for Private Endpoints" `
   -PolicySetDefinition (Get-AzPolicySetDefinition -Name 'custom-central-dns-private-endpoints' -ManagementGroupName "SLZ") `
@@ -109,20 +123,32 @@ New-AzPolicyAssignment `
   -IdentityType "SystemAssigned"
 ```
 
-### Grant Permissions
+### Verify Managed Identity Permissions
 
-The managed identity needs **Private DNS Zone Contributor** role on the resource group containing your private DNS zones:
+The assignment's managed identity requires permissions at two scopes:
+
+- **Network Contributor** at the assignment scope, or on every subscription/resource group containing private endpoints. This allows the policy to create `Microsoft.Network/privateEndpoints/privateDnsZoneGroups` resources. The portal normally grants this declared role automatically.
+- **Private DNS Zone Contributor** on the resource group containing the central Private DNS zones. Verify or add this role explicitly, especially when the DNS resource group is outside the policy assignment scope.
+
+For a PowerShell-created assignment, grant both roles after the managed identity has replicated in Microsoft Entra ID:
 
 ```powershell
-# Get the assignment's principal ID
-$assignment = Get-AzPolicyAssignment -Name "dns-private-endpoints" -Scope "/providers/Microsoft.Management/managementGroups/SLZ"
+$principalId = $assignment.Identity.PrincipalId
 
-# Grant permissions
+# Allow creation of DNS zone groups on private endpoints
 New-AzRoleAssignment `
-  -ObjectId $assignment.IdentityPrincipalId `
+  -ObjectId $principalId `
+  -RoleDefinitionName "Network Contributor" `
+  -Scope "/providers/Microsoft.Management/managementGroups/SLZ"
+
+# Allow the zone groups to reference the central Private DNS zones
+New-AzRoleAssignment `
+  -ObjectId $principalId `
   -RoleDefinitionName "Private DNS Zone Contributor" `
   -Scope "/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>"
 ```
+
+Existing non-compliant private endpoints require remediation tasks after these permissions are in place. For a management-group assignment, create remediation tasks after the first compliance evaluation completes.
 
 ## Configuration
 
