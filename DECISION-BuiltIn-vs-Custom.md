@@ -7,7 +7,7 @@ You're absolutely right to question this. The Microsoft built-in initiative **"C
 ## Comparison
 
 ### Services in Microsoft Built-In (NOT in your custom):
-1. ✅ **Azure Batch** - batchAccount, nodeManagement  
+1. ✅ **Azure Batch** - batchAccount
 2. ✅ **IoT Hub** - iotHub  
 3. ✅ **SignalR** - signalR  
 4. ✅ **Compute Disk Access** - diskAccess  
@@ -115,7 +115,7 @@ New-AzPolicyAssignment -Name "dns-builtin" `
 ### If Keeping Your Custom:
 
 You should **add the missing services** from the built-in:
-- Azure Batch (2 policies)
+- Azure Batch (batchAccount built-in; nodeManagement requires custom policy)
 - IoT Hub
 - SignalR
 - Disk Access

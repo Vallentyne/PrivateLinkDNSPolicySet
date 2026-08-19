@@ -27,6 +27,7 @@ $customServices = @{
     'Microsoft.StorageSync/storageSyncServices|afs' = 'Built-in'
     'Microsoft.DeviceUpdate/accounts|deviceUpdate' = 'Built-in'
     'Microsoft.IoTCentral/IoTApps|iotApp' = 'Built-in'
+    'Microsoft.Batch/batchAccounts|batchAccount' = 'Built-in'
     
     # Custom policies (30 configurations)
     'Microsoft.Automation/automationAccounts|Webhook' = 'Custom'
@@ -57,6 +58,7 @@ $customServices = @{
     'Microsoft.CognitiveServices/accounts|account' = 'Custom (3 zones - AI Foundry)'
     'Microsoft.Cache/RedisEnterprise|redisCache' = 'Custom'
     'Microsoft.HealthcareApis/services|fhir' = 'Custom'
+    'Microsoft.Batch/batchAccounts|nodeManagement' = 'Custom'
 }
 
 # Microsoft built-in initiative services (as of latest documentation)
@@ -178,8 +180,8 @@ Write-Host "   Microsoft: Not included" -ForegroundColor Yellow
 Write-Host ""
 
 Write-Host "6. BATCH ACCOUNTS" -ForegroundColor Magenta
-Write-Host "   Your Custom: Not included" -ForegroundColor Yellow
-Write-Host "   Microsoft: Includes Batch (batchAccount, nodeManagement)" -ForegroundColor Green
+Write-Host "   Your Policy Set: Built-in for batchAccount; custom for nodeManagement" -ForegroundColor Green
+Write-Host "   DNS zone: privatelink.batch.azure.com for both subresources" -ForegroundColor Green
 Write-Host ""
 
 Write-Host "7. VERSIONING & FLEXIBILITY" -ForegroundColor Magenta

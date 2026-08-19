@@ -18,7 +18,7 @@ When you create a private endpoint in Azure, you need to create DNS records in p
 
 ## Architecture
 
-The policy set uses a hybrid approach with **61 total policy configurations**:
+The policy set uses a hybrid approach with **59 total policy configurations**:
 
 ### Built-In Policies (25 configurations)
 Uses Microsoft's native Azure Policy definitions for common services:
@@ -36,9 +36,9 @@ Uses Microsoft's native Azure Policy definitions for common services:
 - Compute Disk Access
 - IoT Hub, IoT Central, Device Update
 - SignalR
-- App Configuration
+- Azure Batch (batchAccount)
 
-### Custom Policies (36 configurations)
+### Custom Policies (34 configurations)
 Deploys custom policy definitions for services without built-in policies or requiring special configuration:
 - Azure Automation (Webhook, DSC and Hybrid Worker)
 - Azure SQL Database
@@ -47,7 +47,7 @@ Deploys custom policy definitions for services without built-in policies or requ
 - Cosmos DB (SQL, MongoDB, MongoDB vCore, Cassandra, Gremlin, Table)
 - Database services (PostgreSQL, MySQL Single + Flexible Server, MariaDB)
 - AKS clusters (region-specific zones)
-- Azure Batch (region-specific zones)
+- Azure Batch (nodeManagement)
 - Backup and Site Recovery (region-specific zones)
 - **Azure AI Foundry** (special multi-zone configuration)
 - Machine Learning (notebooks secondary zone)

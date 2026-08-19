@@ -1,5 +1,14 @@
 # Private DNS Policy Set - Version Changelog
 
+## v6 (August 19, 2026) - Azure Batch DNS Correction
+
+**Total Policies: 59** (25 built-in + 34 custom)
+
+### Changed in v6:
+- Replaced four legacy regional Azure Batch configurations with the current global `privatelink.batch.azure.com` zone.
+- Uses built-in policy `4ec38ebc-381f-45ee-81a4-acbc4be878f8` for the `batchAccount` subresource.
+- Retains one custom policy for `nodeManagement` because the Azure Batch built-in only matches `batchAccount`.
+
 ## v3 (January 19, 2026) - Enhanced Coverage
 
 **Total Policies: 54** (20 built-in + 34 custom)

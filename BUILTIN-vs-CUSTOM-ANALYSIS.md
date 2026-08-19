@@ -48,12 +48,12 @@
 
 ---
 
-## Custom Policies Required (36 configurations)
+## Custom Policies Required (34 configurations)
 
 ### Why Custom? Reasons:
 - **Multi-zone requirements** (AI Foundry, Machine Learning secondary)
 - **Secondary endpoints** (Storage)
-- **Regional specificity** (AKS, Backup, Batch)
+- **Regional specificity** (AKS, Backup)
 - **Newer services** (MongoDB vCore, Redis Enterprise, Healthcare APIs)
 - **Non-standard configurations** (Synapse SqlOnDemand, Dev, Web hub)
 
@@ -109,11 +109,8 @@
 30. 🔧 **Redis Enterprise** - privatelink.redisenterprise.cache.azure.net ⭐NEW
 31. 🔧 **Healthcare APIs (FHIR)** - privatelink.azurehealthcareapis.com ⭐NEW
 
-### Batch (4)
-32. 🔧 **Batch (canadacentral - batchAccount)** - privatelink.canadacentral.batch.azure.com
-33. 🔧 **Batch (canadacentral - nodeManagement)** - canadacentral.service.batch.azure.com
-34. 🔧 **Batch (canadaeast - batchAccount)** - privatelink.canadaeast.batch.azure.com
-35. 🔧 **Batch (canadaeast - nodeManagement)** - canadaeast.service.batch.azure.com
+### Batch (1)
+32. 🔧 **Batch (nodeManagement)** - privatelink.batch.azure.com
 
 ---
 
@@ -129,8 +126,8 @@
    - **Required for geo-redundant storage** - separate private endpoints for secondary regions
    - No built-in policies exist for secondary endpoints
 
-3. **Regional Services (8):**
-   - AKS, Backup, Batch: **Need regional DNS zones** (canadacentral, canadaeast)
+3. **Regional Services:**
+   - AKS and Backup need regional DNS zones (canadacentral, canadaeast)
    - Built-in policies don't support regional zone selection
 
 4. **Newer/Specialized Services (3):**
@@ -180,8 +177,8 @@ The Bicep template automatically:
 | **Redis Enterprise** | ❌ Not supported | ✅ Supported |
 | **MySQL Flexible** | ❌ Not differentiated | ✅ Separate config |
 | **Healthcare APIs** | ❌ Not supported | ✅ Supported |
-| **Regional Zones** | ❌ No regional specificity | ✅ AKS, Backup, Batch by region |
+| **Regional Zones** | ❌ No regional specificity | ✅ AKS and Backup by region |
 | **Storage Secondary** | ❌ Not supported | ✅ All secondary endpoints |
-| **Batch** | ✅ Supported (generic) | ✅ Regional support |
+| **Batch** | ✅ batchAccount | ✅ batchAccount built-in + custom nodeManagement |
 
 ### Conclusion: Your solution is MORE comprehensive with NO unnecessary custom policies.

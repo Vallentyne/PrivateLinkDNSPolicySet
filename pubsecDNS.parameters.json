@@ -526,38 +526,20 @@
                 },
                 {
                     "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
-                    "zone": "privatelink.canadacentral.batch.azure.com",
-                    "filterLocationLike": "canadacentral",
+                    "zone": "privatelink.batch.azure.com",
+                    "filterLocationLike": "*",
                     "groupId": "batchAccount",
                     "privateDnsZoneConfigs": [
-                        "privatelink.canadacentral.batch.azure.com"
+                        "privatelink.batch.azure.com"
                     ]
                 },
                 {
                     "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
-                    "zone": "canadacentral.service.batch.azure.com",
-                    "filterLocationLike": "canadacentral",
+                    "zone": "privatelink.batch.azure.com",
+                    "filterLocationLike": "*",
                     "groupId": "nodeManagement",
                     "privateDnsZoneConfigs": [
-                        "canadacentral.service.batch.azure.com"
-                    ]
-                },
-                {
-                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
-                    "zone": "privatelink.canadaeast.batch.azure.com",
-                    "filterLocationLike": "canadaeast",
-                    "groupId": "batchAccount",
-                    "privateDnsZoneConfigs": [
-                        "privatelink.canadaeast.batch.azure.com"
-                    ]
-                },
-                {
-                    "privateLinkServiceNamespace": "Microsoft.Batch/batchAccounts",
-                    "zone": "canadaeast.service.batch.azure.com",
-                    "filterLocationLike": "canadaeast",
-                    "groupId": "nodeManagement",
-                    "privateDnsZoneConfigs": [
-                        "canadaeast.service.batch.azure.com"
+                        "privatelink.batch.azure.com"
                     ]
                 }
             ]

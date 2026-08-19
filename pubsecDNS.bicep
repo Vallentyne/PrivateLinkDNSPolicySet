@@ -74,6 +74,7 @@ var builtInPolicyMap = {
   'Microsoft.StorageSync/storageSyncServices-afs': '06695360-db88-47f6-b976-7500d4297475'
   'Microsoft.DeviceUpdate/accounts-deviceUpdate': 'a222b93a-e6c2-4c01-817f-21e092455b2a'
   'Microsoft.IoTCentral/IoTApps-iotApp': 'd627d7c6-ded5-481a-8f2e-7e16b1e6faf6'
+  'Microsoft.Batch/batchAccounts-batchAccount': '4ec38ebc-381f-45ee-81a4-acbc4be878f8'
 }
 
 // Separate zones into those with built-in policies and those needing custom policies

@@ -627,48 +627,26 @@
             "customReason": "No built-in policy available for AzureSiteRecovery group"
         },
         {
-            "logicalService": "Azure Batch (Batch Account - Canada Central)",
+            "logicalService": "Azure Batch (Batch Account)",
             "category": "Compute & Containers",
             "resourceNamespace": "Microsoft.Batch/batchAccounts",
             "groupId": "batchAccount",
-            "dnsZone": "privatelink.canadacentral.batch.azure.com",
-            "filterLocationLike": "canadacentral",
-            "policyType": "custom",
-            "builtInPolicyId": null,
-            "customReason": "Batch DNS zone is region-specific; no built-in policy handles region-scoped zones"
+            "dnsZone": "privatelink.batch.azure.com",
+            "filterLocationLike": "*",
+            "policyType": "builtin",
+            "builtInPolicyId": "4ec38ebc-381f-45ee-81a4-acbc4be878f8",
+            "customReason": null
         },
         {
-            "logicalService": "Azure Batch (Node Management - Canada Central)",
+            "logicalService": "Azure Batch (Node Management)",
             "category": "Compute & Containers",
             "resourceNamespace": "Microsoft.Batch/batchAccounts",
             "groupId": "nodeManagement",
-            "dnsZone": "canadacentral.service.batch.azure.com",
-            "filterLocationLike": "canadacentral",
+            "dnsZone": "privatelink.batch.azure.com",
+            "filterLocationLike": "*",
             "policyType": "custom",
             "builtInPolicyId": null,
-            "customReason": "Batch node management DNS zone is region-specific"
-        },
-        {
-            "logicalService": "Azure Batch (Batch Account - Canada East)",
-            "category": "Compute & Containers",
-            "resourceNamespace": "Microsoft.Batch/batchAccounts",
-            "groupId": "batchAccount",
-            "dnsZone": "privatelink.canadaeast.batch.azure.com",
-            "filterLocationLike": "canadaeast",
-            "policyType": "custom",
-            "builtInPolicyId": null,
-            "customReason": "Batch DNS zone is region-specific; no built-in policy handles region-scoped zones"
-        },
-        {
-            "logicalService": "Azure Batch (Node Management - Canada East)",
-            "category": "Compute & Containers",
-            "resourceNamespace": "Microsoft.Batch/batchAccounts",
-            "groupId": "nodeManagement",
-            "dnsZone": "canadaeast.service.batch.azure.com",
-            "filterLocationLike": "canadaeast",
-            "policyType": "custom",
-            "builtInPolicyId": null,
-            "customReason": "Batch node management DNS zone is region-specific"
+            "customReason": "The Azure Batch built-in private DNS policy only matches the batchAccount groupId"
         },
         {
             "logicalService": "Azure Healthcare APIs (FHIR)",
