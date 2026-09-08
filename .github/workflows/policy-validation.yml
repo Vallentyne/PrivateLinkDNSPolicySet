@@ -1,0 +1,32 @@
+name: Policy validation
+
+on:
+  pull_request:
+    paths:
+      - '**/*.bicep'
+      - '**/*.json'
+      - '**/*.ps1'
+      - '.github/workflows/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.bicep'
+      - '**/*.json'
+      - '**/*.ps1'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate policy catalog and Bicep
+        shell: pwsh
+        run: ./tests/smoke/Invoke-SmokeTest.ps1 -Action Validate

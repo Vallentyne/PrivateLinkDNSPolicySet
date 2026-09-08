@@ -250,6 +250,67 @@ This performs five checks:
 
 Exits with code `0` on full pass, `1` on any failure (safe to use in CI/CD pipelines).
 
+### Automated Azure Smoke Test
+
+The smoke harness deploys five representative Private Link services into a disposable resource group:
+
+- Storage Blob and Key Vault validate Microsoft built-in policy references.
+- App Configuration validates the standard custom policy path.
+- AI Services validates the custom three-zone policy path.
+- Azure Machine Learning validates the built-in two-zone policy path.
+
+Private endpoints are deployed without DNS zone groups. The harness assigns the initiative, starts targeted remediation with fresh resource discovery, and verifies that:
+
+1. Each private endpoint has exactly one DNS zone group.
+2. The zone group contains exactly the expected private DNS zone IDs.
+3. Every expected zone contains an A record for the private endpoint NIC IP.
+4. A final policy scan has no non-compliant states for the smoke assignment.
+
+Run the complete lifecycle locally with an existing Azure CLI login:
+
+```powershell
+./tests/smoke/Invoke-SmokeTest.ps1 `
+  -Action All `
+  -SubscriptionId '<test-subscription-id>' `
+  -ManagementGroupId '<test-management-group-id>'
+```
+
+`All` removes the environment in a `finally` block. To retain a failed environment temporarily, add `-KeepOnFailure`; it remains tagged with a six-hour expiration. Remove a retained run using the same `RunId` printed by the original command:
+
+```powershell
+./tests/smoke/Invoke-SmokeTest.ps1 `
+  -Action Destroy `
+  -SubscriptionId '<test-subscription-id>' `
+  -ManagementGroupId '<test-management-group-id>' `
+  -RunId '<original-run-id>'
+```
+
+Use `-Action Validate` for the offline catalog and Bicep checks. The `Deploy`, `Test`, and `Destroy` actions support troubleshooting an individual run.
+
+#### Dedicated Test Subscription
+
+Place a dedicated test subscription in a child management group used only for this harness. The subscription must be a descendant of the management group where the temporary initiative definitions are deployed.
+
+For GitHub Actions, configure an Entra application or user-assigned managed identity with a federated credential for the `dns-policy-smoke` GitHub environment. Grant its service principal:
+
+- **Contributor** on the dedicated test management group.
+- **Role Based Access Control Administrator** on the dedicated test subscription, allowing it to grant the policy assignment identity its declared remediation roles.
+
+Configure these GitHub environment variables on `dns-policy-smoke`:
+
+- `AZURE_CLIENT_ID`
+- `AZURE_TENANT_ID`
+- `AZURE_SUBSCRIPTION_ID`
+- `AZURE_POLICY_MANAGEMENT_GROUP_ID`
+
+The workflows provide three automation levels:
+
+- `policy-validation.yml` runs offline validation on pull requests and pushes to `main`.
+- `policy-smoke.yml` runs the live test manually or every Monday and serializes access to the test subscription.
+- `cleanup-expired.yml` runs daily to remove expired resource groups and orphaned `smoke-*` policy definitions.
+
+AI Services availability and quota vary by region. Change the workflow's `location` input if `AIServices` is unavailable in the default region.
+
 ### Updating Policies
 
 To update existing policies, you must delete them first (Azure doesn't allow removing parameters from policies):
@@ -318,6 +379,8 @@ az network private-endpoint dns-zone-group list `
 - **service-catalog.json**: Canonical service catalog — single source of truth for all 59 DNS zone configurations with policy type, DNS zone, and built-in policy ID
 - **Test-PolicyCoverage.ps1**: Validation script — cross-checks catalog, parameters, and Bicep map for consistency (CI-safe, exits non-zero on failure)
 - **templates/DNS-PrivateEndpoints/azurepolicy.json**: Custom policy template supporting multi-zone configuration
+- **tests/smoke**: Disposable Azure smoke-test Bicep, orchestration, assertions, and cleanup scripts
+- **.github/workflows**: Offline validation, live smoke testing, and expiration cleanup workflows
 
 ## Output
 
