@@ -4,12 +4,13 @@
 
 .DESCRIPTION
     service-catalog.json is the single source of truth for all supported Private Link DNS services.
-    This script performs four cross-checks:
+    This script performs five cross-checks:
 
       Check 1 - Catalog vs Parameters  : every catalog entry has a matching zone entry in parameters.json
       Check 2 - Parameters vs Catalog  : every parameters.json zone has a matching catalog entry (no undocumented zones)
       Check 3 - Catalog vs Bicep Map   : every 'builtin' catalog entry is in pubsecDNS.bicep builtInPolicyMap with correct policy ID
       Check 4 - Bicep Map vs Catalog   : every builtInPolicyMap entry has a catalog entry (no orphaned map entries)
+    Check 5 - Parameter Routing      : every parameter entry follows its catalog route and multi-zone built-ins emit once
 
     Exits with code 0 on full pass, 1 if any check fails. Safe to use in CI/CD pipelines.
 
@@ -228,6 +229,44 @@ if ($check4Failures.Count -eq 0) {
     Write-Fail "$($check4Failures.Count) orphaned Bicep map entry/entries found"
 }
 
+# ── Check 5: Parameter routing and multi-zone built-ins ──────────────────────
+
+Write-Header "Check 5: Parameter routing and multi-zone built-ins"
+
+$check5Failures = @()
+$builtInPrimaryEntries = @()
+
+foreach ($zone in $parameters) {
+    $zoneKey = Get-ZoneKey $zone.privateLinkServiceNamespace $zone.groupId $zone.filterLocationLike $zone.zone
+    $bicepKey = Get-BicepKey $zone.privateLinkServiceNamespace $zone.groupId
+    $expectedType = if ($bicepMapEntries.ContainsKey($bicepKey)) { 'builtin' } else { 'custom' }
+    $catalogEntry = $catalogByZoneKey[$zoneKey]
+
+    if ($catalogEntry -and $catalogEntry.policyType -ne $expectedType) {
+        $check5Failures += $zone
+        Write-Fail "ROUTING MISMATCH: $zoneKey is cataloged as '$($catalogEntry.policyType)' but Bicep routes it as '$expectedType'"
+    }
+
+    if ($expectedType -eq 'builtin' -and $zone.zone -eq $zone.privateDnsZoneConfigs[0]) {
+        $builtInPrimaryEntries += $zone
+    }
+}
+
+$duplicateBuiltInReferences = $builtInPrimaryEntries | Group-Object {
+    Get-BicepKey $_.privateLinkServiceNamespace $_.groupId
+} | Where-Object Count -gt 1
+
+foreach ($duplicate in $duplicateBuiltInReferences) {
+    $check5Failures += $duplicate.Group
+    Write-Fail "DUPLICATE BUILT-IN REFERENCE: '$($duplicate.Name)' would be emitted $($duplicate.Count) times"
+}
+
+if ($check5Failures.Count -eq 0) {
+    Write-Pass "All parameter entries follow their catalog route and built-in references emit once"
+} else {
+    Write-Fail "$($check5Failures.Count) parameter routing issue(s) found"
+}
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 
 Write-Header "Summary"
@@ -252,13 +291,13 @@ Write-Host "  By category:" -ForegroundColor White
 $categoryReport | ForEach-Object { Write-Host $_ -ForegroundColor Gray }
 Write-Host ""
 
-$allChecksPassed = ($check1Failures.Count + $check2Failures.Count + $check3Failures.Count + $check4Failures.Count) -eq 0
+$allChecksPassed = ($check1Failures.Count + $check2Failures.Count + $check3Failures.Count + $check4Failures.Count + $check5Failures.Count) -eq 0
 
 if ($allChecksPassed) {
     Write-Host "  ALL CHECKS PASSED -- policy set is fully consistent with the catalog." -ForegroundColor Green
     exit 0
 } else {
-    $totalFails = $check1Failures.Count + $check2Failures.Count + $check3Failures.Count + $check4Failures.Count
+    $totalFails = $check1Failures.Count + $check2Failures.Count + $check3Failures.Count + $check4Failures.Count + $check5Failures.Count
     Write-Host "  $totalFails ISSUE(S) FOUND -- resolve before deploying." -ForegroundColor Red
     Write-Host ""
     Write-Host "  Failures by check:" -ForegroundColor Red
@@ -266,9 +305,11 @@ if ($allChecksPassed) {
     $c2color = if ($check2Failures.Count -gt 0) { 'Red' } else { 'Green' }
     $c3color = if ($check3Failures.Count -gt 0) { 'Red' } else { 'Green' }
     $c4color = if ($check4Failures.Count -gt 0) { 'Red' } else { 'Green' }
+    $c5color = if ($check5Failures.Count -gt 0) { 'Red' } else { 'Green' }
     Write-Host "    Check 1 (catalog -> params)    : $($check1Failures.Count)" -ForegroundColor $c1color
     Write-Host "    Check 2 (params -> catalog)    : $($check2Failures.Count)" -ForegroundColor $c2color
     Write-Host "    Check 3 (builtin -> bicep map) : $($check3Failures.Count)" -ForegroundColor $c3color
     Write-Host "    Check 4 (bicep map -> catalog) : $($check4Failures.Count)" -ForegroundColor $c4color
+    Write-Host "    Check 5 (parameter routing)     : $($check5Failures.Count)" -ForegroundColor $c5color
     exit 1
 }

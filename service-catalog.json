@@ -248,9 +248,9 @@
             "groupId": "amlworkspace",
             "dnsZone": "privatelink.notebooks.azure.net",
             "filterLocationLike": "*",
-            "policyType": "custom",
-            "builtInPolicyId": null,
-            "customReason": "Secondary DNS zone required for same PE; built-in only covers primary zone"
+            "policyType": "builtin",
+            "builtInPolicyId": "ee40564d-486e-4f68-a5ca-7a621edae0fb",
+            "customReason": null
         },
         {
             "logicalService": "Azure AI / Cognitive Services (AI Foundry)",

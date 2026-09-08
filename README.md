@@ -18,7 +18,7 @@ When you create a private endpoint in Azure, you need to create DNS records in p
 
 ## Architecture
 
-The policy set uses a hybrid approach with **59 total policy configurations**:
+The policy set uses a hybrid approach with **58 total policy references** covering 59 DNS zone configurations:
 
 ### Built-In Policies (25 configurations)
 Uses Microsoft's native Azure Policy definitions for common services:
@@ -29,7 +29,7 @@ Uses Microsoft's native Azure Policy definitions for common services:
 - Web Apps
 - Azure Cache for Redis
 - Cognitive Search
-- Machine Learning workspaces
+- Machine Learning workspaces (primary and notebooks zones)
 - Azure Synapse (SQL)
 - Data Factory
 - Storage Sync
@@ -38,7 +38,7 @@ Uses Microsoft's native Azure Policy definitions for common services:
 - SignalR
 - Azure Batch (batchAccount)
 
-### Custom Policies (34 configurations)
+### Custom Policies (33 references)
 Deploys custom policy definitions for services without built-in policies or requiring special configuration:
 - Azure Automation (Webhook, DSC and Hybrid Worker)
 - Azure SQL Database
@@ -50,7 +50,6 @@ Deploys custom policy definitions for services without built-in policies or requ
 - Azure Batch (nodeManagement)
 - Backup and Site Recovery (region-specific zones)
 - **Azure AI Foundry** (special multi-zone configuration)
-- Machine Learning (notebooks secondary zone)
 - Redis Enterprise
 - Healthcare APIs (FHIR)
 
@@ -68,6 +67,15 @@ The custom policy template includes logic to:
 - Verify compliance by checking that **all** required zones exist (not just one)
 
 This ensures Azure AI Foundry endpoints work correctly for all service scenarios (Cognitive Services, OpenAI, AI Services).
+
+## Azure Machine Learning (Built-In Multi-Zone Support)
+
+Azure Machine Learning workspace private endpoints require both:
+
+1. `privatelink.api.azureml.ms`
+2. `privatelink.notebooks.azure.net`
+
+Both catalog entries map to the Microsoft built-in policy `ee40564d-486e-4f68-a5ca-7a621edae0fb`. The initiative emits this built-in exactly once, passing the API zone as `privateDnsZoneId` and the notebooks zone as `secondPrivateDnsZoneId`. This creates one `deployedByPolicy` DNS zone group containing both zones and avoids competing deployments to the same private endpoint child resource.
 
 ## Deployment
 
@@ -148,7 +156,7 @@ New-AzRoleAssignment `
   -Scope "/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>"
 ```
 
-Existing non-compliant private endpoints require remediation tasks after these permissions are in place. For a management-group assignment, create remediation tasks after the first compliance evaluation completes.
+Existing non-compliant private endpoints require remediation tasks after these permissions are in place. For a management-group assignment, wait for the first compliance evaluation to record the resource as non-compliant, then create remediation at the resource-group or subscription scope using the existing compliance state. Verify that older versions of the initiative are not also assigned at an overlapping scope.
 
 ## Configuration
 
@@ -233,11 +241,12 @@ Run the validation script before every deployment:
 .\Test-PolicyCoverage.ps1
 ```
 
-This performs four checks:
+This performs five checks:
 - **Check 1**: Every catalog entry exists in `pubsecDNS.parameters.json`
 - **Check 2**: Every parameters zone is documented in the catalog (no undocumented additions)
 - **Check 3**: Every `builtin` catalog entry is in `pubsecDNS.bicep`'s `builtInPolicyMap` with the correct policy GUID
 - **Check 4**: No orphaned entries in the Bicep map
+- **Check 5**: Every parameter follows its catalog route, and multi-zone built-ins emit exactly one policy reference
 
 Exits with code `0` on full pass, `1` on any failure (safe to use in CI/CD pipelines).
 
@@ -271,6 +280,16 @@ Get-AzPolicyDefinition -ManagementGroupName "SLZ" -Custom |
 
 ### Remediation Failures
 
+- **Error: `LinkedAuthorizationFailed` for `Microsoft.Network/privateDnsZones/join/action`**
+  - Confirm the caller object ID belongs to the intended policy assignment's managed identity
+  - Grant that identity **Private DNS Zone Contributor** on the central DNS zone resource group
+  - Check for older policy assignments at overlapping scopes; an old assignment can still launch competing deployments with its own identity and parameters
+
+- **Remediation remains `Evaluating` with zero deployments**
+  - Confirm Policy Insights has a fresh `NonCompliant` state for the assignment and definition reference
+  - Create remediation at the resource-group or subscription scope after that state exists
+  - Use the existing non-compliant state instead of starting resource-level reevaluation before the compliance snapshot is available
+
 - **Error: "MoreThanOnePrivateDnsZoneGroupPerPrivateEndpointNotAllowed"**
   - Private endpoint already has a zone group
   - Delete existing zone group first, or update it manually
@@ -295,8 +314,8 @@ az network private-endpoint dns-zone-group list `
 ## Files
 
 - **pubsecDNS.bicep**: Main Bicep template deploying policies and policy set
-- **pubsecDNS.parameters.json**: Configuration of DNS zones (61 entries)
-- **service-catalog.json**: Canonical service catalog — single source of truth for all 61 supported services with policy type, DNS zone, and built-in policy ID
+- **pubsecDNS.parameters.json**: Configuration of DNS zones (59 entries)
+- **service-catalog.json**: Canonical service catalog — single source of truth for all 59 DNS zone configurations with policy type, DNS zone, and built-in policy ID
 - **Test-PolicyCoverage.ps1**: Validation script — cross-checks catalog, parameters, and Bicep map for consistency (CI-safe, exits non-zero on failure)
 - **templates/DNS-PrivateEndpoints/azurepolicy.json**: Custom policy template supporting multi-zone configuration
 
@@ -304,8 +323,8 @@ az network private-endpoint dns-zone-group list `
 
 After deployment, the template outputs:
 - `builtInPolicyCount`: Number of policies using Microsoft built-in definitions (25)
-- `customPolicyCount`: Number of custom policies deployed (36)
-- `totalPolicyCount`: Total DNS zone configurations (61)
+- `customPolicyCount`: Number of custom policies deployed (33)
+- `totalPolicyCount`: Total DNS zone configurations (59)
 
 ## License
 

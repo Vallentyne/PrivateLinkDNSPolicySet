@@ -77,8 +77,14 @@ var builtInPolicyMap = {
   'Microsoft.Batch/batchAccounts-batchAccount': '4ec38ebc-381f-45ee-81a4-acbc4be878f8'
 }
 
+var builtInPolicyKeysWithSecondDnsZone = [
+  'Microsoft.MachineLearningServices/workspaces-amlworkspace'
+]
+
 // Separate zones into those with built-in policies and those needing custom policies
-var zonesWithBuiltInPolicies = [for zone in privateDNSZones: contains(builtInPolicyMap, '${zone.privateLinkServiceNamespace}-${zone.groupId}') ? zone : null]
+// Multi-zone built-ins are represented by one entry per catalog zone. Emit only the
+// primary entry; its privateDnsZoneConfigs array supplies any additional zone IDs.
+var zonesWithBuiltInPolicies = [for zone in privateDNSZones: contains(builtInPolicyMap, '${zone.privateLinkServiceNamespace}-${zone.groupId}') && zone.zone == zone.privateDnsZoneConfigs[0] ? zone : null]
 var zonesNeedingCustomPolicies = [for zone in privateDNSZones: contains(builtInPolicyMap, '${zone.privateLinkServiceNamespace}-${zone.groupId}') ? null : zone]
 var filteredBuiltInZones = filter(zonesWithBuiltInPolicies, z => z != null)
 var filteredCustomZones = filter(zonesNeedingCustomPolicies, z => z != null)
@@ -90,14 +96,18 @@ var policySetDefinitionsBuiltIn = [for zone in filteredBuiltInZones: {
   ]
   policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/${builtInPolicyMap['${zone.privateLinkServiceNamespace}-${zone.groupId}']}'
   policyDefinitionReferenceId: toLower('builtin-${zone.zone}-${zone.groupId}-${uniqueString(zone.privateLinkServiceNamespace)}')
-  parameters: {
+  parameters: union({
     privateDnsZoneId: {
       value: '[[concat(\'/subscriptions/\',parameters(\'privateDNSZoneSubscriptionId\'),\'/resourcegroups/\',parameters(\'privateDNSZoneResourceGroupName\'),\'/providers/Microsoft.Network/privateDnsZones/${zone.zone}\')]'
     }
     effect: {
       value: 'DeployIfNotExists'
     }
-  }
+  }, contains(builtInPolicyKeysWithSecondDnsZone, '${zone.privateLinkServiceNamespace}-${zone.groupId}') && length(zone.privateDnsZoneConfigs) > 1 ? {
+    secondPrivateDnsZoneId: {
+      value: '[[concat(\'/subscriptions/\',parameters(\'privateDNSZoneSubscriptionId\'),\'/resourcegroups/\',parameters(\'privateDNSZoneResourceGroupName\'),\'/providers/Microsoft.Network/privateDnsZones/${zone.privateDnsZoneConfigs[1]}\')]'
+    }
+  } : {})
 }]
 
 // Custom policy definitions (for services without built-in policies)

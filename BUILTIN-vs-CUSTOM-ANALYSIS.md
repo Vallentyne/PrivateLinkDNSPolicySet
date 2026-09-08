@@ -1,9 +1,9 @@
 # Built-In vs Custom Policy Analysis - v4
 
 ## Deployment Summary
-- **Total Policies: 61**
+- **Total Policy References: 58**
 - **Built-in Policies: 25**
-- **Custom Policies: 36**
+- **Custom Policies: 33**
 
 ## Built-In Policies Used (25 unique services, 25 configurations)
 
@@ -48,10 +48,10 @@
 
 ---
 
-## Custom Policies Required (34 configurations)
+## Custom Policies Required
 
 ### Why Custom? Reasons:
-- **Multi-zone requirements** (AI Foundry, Machine Learning secondary)
+- **Multi-zone requirements** (AI Foundry)
 - **Secondary endpoints** (Storage)
 - **Regional specificity** (AKS, Backup)
 - **Newer services** (MongoDB vCore, Redis Enterprise, Healthcare APIs)
@@ -88,29 +88,28 @@
 20. 🔧 **Storage (web_secondary)** - privatelink.web.core.windows.net
 21. 🔧 **Storage (dfs_secondary)** - privatelink.dfs.core.windows.net
 
-### AI & Machine Learning (2)
+### AI & Machine Learning (1)
 22. 🔧 **Azure AI Foundry** - 3 zones ⭐CRITICAL FIX
    - privatelink.cognitiveservices.azure.com
    - privatelink.openai.azure.com
    - privatelink.services.ai.azure.com
-23. 🔧 **Machine Learning (notebooks)** - privatelink.notebooks.azure.net (secondary zone)
 
 ### Infrastructure (4)
-24. 🔧 **AKS (canadacentral)** - privatelink.canadacentral.azmk8s.io
-25. 🔧 **AKS (canadaeast)** - privatelink.canadaeast.azmk8s.io
-26. 🔧 **Synapse Private Link Hub** - privatelink.azuresynapse.net
+23. 🔧 **AKS (canadacentral)** - privatelink.canadacentral.azmk8s.io
+24. 🔧 **AKS (canadaeast)** - privatelink.canadaeast.azmk8s.io
+25. 🔧 **Synapse Private Link Hub** - privatelink.azuresynapse.net
 
 ### Backup & Recovery (3)
-27. 🔧 **Backup (canadacentral)** - privatelink.cnc.backup.windowsazure.com
-28. 🔧 **Backup (canadaeast)** - privatelink.cne.backup.windowsazure.com
-29. 🔧 **Site Recovery** - privatelink.siterecovery.windowsazure.com
+26. 🔧 **Backup (canadacentral)** - privatelink.cnc.backup.windowsazure.com
+27. 🔧 **Backup (canadaeast)** - privatelink.cne.backup.windowsazure.com
+28. 🔧 **Site Recovery** - privatelink.siterecovery.windowsazure.com
 
 ### Cache & Healthcare (2)
-30. 🔧 **Redis Enterprise** - privatelink.redisenterprise.cache.azure.net ⭐NEW
-31. 🔧 **Healthcare APIs (FHIR)** - privatelink.azurehealthcareapis.com ⭐NEW
+29. 🔧 **Redis Enterprise** - privatelink.redisenterprise.cache.azure.net ⭐NEW
+30. 🔧 **Healthcare APIs (FHIR)** - privatelink.azurehealthcareapis.com ⭐NEW
 
 ### Batch (1)
-32. 🔧 **Batch (nodeManagement)** - privatelink.batch.azure.com
+31. 🔧 **Batch (nodeManagement)** - privatelink.batch.azure.com
 
 ---
 
@@ -118,9 +117,8 @@
 
 ### ✅ **NO - All Custom Policies Are Justified**
 
-1. **Multi-Zone Services (3):**
+1. **Multi-Zone Services (1):**
    - Azure AI Foundry: **MUST be custom** - needs 3 zones, built-in only supports 1
-   - Machine Learning: **MUST be custom** - need both zones (api + notebooks)
    
 2. **Storage Secondary Endpoints (6):**
    - **Required for geo-redundant storage** - separate private endpoints for secondary regions
