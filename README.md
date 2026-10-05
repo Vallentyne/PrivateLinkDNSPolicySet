@@ -18,9 +18,9 @@ When you create a private endpoint in Azure, you need to create DNS records in p
 
 ## Architecture
 
-The policy set uses a hybrid approach with **58 total policy references** covering 59 DNS zone configurations:
+The policy set uses a hybrid approach with **59 total policy references** covering 60 DNS zone configurations:
 
-### Built-In Policies (25 configurations)
+### Built-In Policies (25 references, 26 DNS zone configurations)
 Uses Microsoft's native Azure Policy definitions for common services:
 - Storage Accounts (blob, file, queue, table, dfs, web)
 - Key Vault
@@ -38,7 +38,7 @@ Uses Microsoft's native Azure Policy definitions for common services:
 - SignalR
 - Azure Batch (batchAccount)
 
-### Custom Policies (33 references)
+### Custom Policies (34 references)
 Deploys custom policy definitions for services without built-in policies or requiring special configuration:
 - Azure Automation (Webhook, DSC and Hybrid Worker)
 - Azure SQL Database
@@ -50,7 +50,7 @@ Deploys custom policy definitions for services without built-in policies or requ
 - Azure Batch (nodeManagement)
 - Backup and Site Recovery (region-specific zones)
 - **Azure AI Foundry** (special multi-zone configuration)
-- Redis Enterprise
+- Azure Cache for Redis Enterprise (legacy) and Azure Managed Redis
 - Healthcare APIs (FHIR)
 
 ## Azure AI Foundry (Multi-Zone Support)
@@ -252,12 +252,14 @@ Exits with code `0` on full pass, `1` on any failure (safe to use in CI/CD pipel
 
 ### Automated Azure Smoke Test
 
-The smoke harness deploys five representative Private Link services into a disposable resource group:
+The smoke harness deploys representative Private Link services into a disposable resource group:
 
 - Storage Blob and Key Vault validate Microsoft built-in policy references.
 - App Configuration validates the standard custom policy path.
 - AI Services validates the custom three-zone policy path.
 - Azure Machine Learning validates the built-in two-zone policy path.
+- Azure Managed Redis validates its custom `redisEnterprise` route and `privatelink.redis.azure.net` zone.
+- Azure Batch validates both account and node-management routes, including a second account in Canada East. The node-management record name comes from the account's advertised endpoint rather than its resource name.
 
 Private endpoints are deployed without DNS zone groups. The harness assigns the initiative, starts targeted remediation with fresh resource discovery, and verifies that:
 
@@ -286,10 +288,23 @@ Run the complete lifecycle locally with an existing Azure CLI login:
 ```
 
 Use `-Action Validate` for the offline catalog and Bicep checks. The `Deploy`, `Test`, and `Destroy` actions support troubleshooting an individual run.
+`Validate` also runs subscription-guard and DNS-assertion regression tests. A standalone `Test` action writes a JSON result on either success or failure.
+
+The standard harness does not perform pre-deployment cleanup. Use a unique `RunId` for each fresh environment. `Destroy` requests resource-group deletion asynchronously; it does not wait for deletion to finish, and soft-deleted service names can prevent immediate reuse.
+
+Regional-routing tests have their own scripts, templates, results, validation, smoke, and cleanup workflows under [regional-routing](./regional-routing/README.md). Standard smoke workflows do not invoke that harness.
+
+#### Latest live verification (October 2, 2026)
+
+The Canada Central attempt could not provision the `Balanced_B0` Managed Redis fixture because Azure reported insufficient capacity. A separate Canada East run deployed the initiative, backing services, assignment, and all 10 private endpoints.
+
+Direct checks of the Canada East run passed all 10 DNS assertions, and Azure reported the Managed Redis endpoint as compliant. However, the full harness run remained failed because the Managed Redis remediation stayed in `Evaluating` beyond the 45-minute timeout. These observations verify the deployed DNS configuration, not a successful full smoke lifecycle. Resource retention and capacity observations describe that run, not the current state of Azure.
 
 #### Dedicated Test Subscription
 
-Place a dedicated test subscription in a child management group used only for this harness. The subscription must be a descendant of the management group where the temporary initiative definitions are deployed.
+The standard smoke runner and expired-resource cleanup only accept the subscription named **covallen3-dnstest**. Supply its subscription ID (or its name) through `-SubscriptionId`. Both scripts verify the name and enabled state before any Azure changes, and explicitly scope subsequent Azure commands to its verified subscription ID. A different, unavailable, or disabled subscription causes the run to fail before deployment or cleanup. Offline `Validate` does not require an Azure login.
+
+The subscription must be a descendant of the test management group where the temporary initiative definitions are deployed. Policy definitions remain management-group scoped; this subscription restriction does not change their deployment scope.
 
 For GitHub Actions, configure an Entra application or user-assigned managed identity with a federated credential for the `dns-policy-smoke` GitHub environment. Grant its service principal:
 
@@ -300,7 +315,7 @@ Configure these GitHub environment variables on `dns-policy-smoke`:
 
 - `AZURE_CLIENT_ID`
 - `AZURE_TENANT_ID`
-- `AZURE_SUBSCRIPTION_ID`
+- `AZURE_SUBSCRIPTION_ID` (the ID of `covallen3-dnstest`; any other subscription is rejected by the scripts)
 - `AZURE_POLICY_MANAGEMENT_GROUP_ID`
 
 The workflows provide three automation levels:

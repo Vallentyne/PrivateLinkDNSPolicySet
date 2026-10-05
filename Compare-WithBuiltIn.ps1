@@ -56,7 +56,8 @@ $customServices = @{
     'Microsoft.RecoveryServices/vaults|AzureBackup' = 'Custom (2 regions)'
     'Microsoft.RecoveryServices/vaults|AzureSiteRecovery' = 'Custom'
     'Microsoft.CognitiveServices/accounts|account' = 'Custom (3 zones - AI Foundry)'
-    'Microsoft.Cache/RedisEnterprise|redisCache' = 'Custom'
+    'Microsoft.Cache/RedisEnterprise|redisCache' = 'Custom (Azure Cache for Redis Enterprise, legacy)'
+    'Microsoft.Cache/redisEnterprise|redisEnterprise' = 'Custom (Azure Managed Redis)'
     'Microsoft.HealthcareApis/services|fhir' = 'Custom'
     'Microsoft.Batch/batchAccounts|nodeManagement' = 'Custom'
 }
@@ -170,7 +171,7 @@ Write-Host "   Microsoft: Only MySQL Single Server" -ForegroundColor Yellow
 Write-Host ""
 
 Write-Host "4. REDIS ENTERPRISE" -ForegroundColor Magenta
-Write-Host "   Your Custom: Includes Redis Enterprise" -ForegroundColor Green
+Write-Host "   Your Custom: Includes Azure Cache for Redis Enterprise and Azure Managed Redis" -ForegroundColor Green
 Write-Host "   Microsoft: Only Redis (standard)" -ForegroundColor Yellow
 Write-Host ""
 

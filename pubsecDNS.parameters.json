@@ -516,6 +516,15 @@
                     ]
                 },
                 {
+                    "privateLinkServiceNamespace": "Microsoft.Cache/redisEnterprise",
+                    "zone": "privatelink.redis.azure.net",
+                    "filterLocationLike": "*",
+                    "groupId": "redisEnterprise",
+                    "privateDnsZoneConfigs": [
+                        "privatelink.redis.azure.net"
+                    ]
+                },
+                {
                     "privateLinkServiceNamespace": "Microsoft.HealthcareApis/services",
                     "zone": "privatelink.azurehealthcareapis.com",
                     "filterLocationLike": "*",

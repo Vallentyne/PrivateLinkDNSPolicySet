@@ -1,11 +1,11 @@
 # Built-In vs Custom Policy Analysis - v4
 
 ## Deployment Summary
-- **Total Policy References: 58**
+- **Total Policy References: 59**
 - **Built-in Policies: 25**
-- **Custom Policies: 33**
+- **Custom Policies: 34**
 
-## Built-In Policies Used (25 unique services, 25 configurations)
+## Built-In Policies Used (25 unique services, 25 references, 26 DNS zone configurations)
 
 ### Storage & File Services (7)
 1. ✅ **KeyVault** - privatelink.vaultcore.azure.net
@@ -54,7 +54,7 @@
 - **Multi-zone requirements** (AI Foundry)
 - **Secondary endpoints** (Storage)
 - **Regional specificity** (AKS, Backup)
-- **Newer services** (MongoDB vCore, Redis Enterprise, Healthcare APIs)
+- **Newer services** (MongoDB vCore, Azure Cache for Redis Enterprise, Azure Managed Redis, Healthcare APIs)
 - **Non-standard configurations** (Synapse SqlOnDemand, Dev, Web hub)
 
 ### Automation & Configuration (2)
@@ -105,8 +105,9 @@
 28. 🔧 **Site Recovery** - privatelink.siterecovery.windowsazure.com
 
 ### Cache & Healthcare (2)
-29. 🔧 **Redis Enterprise** - privatelink.redisenterprise.cache.azure.net ⭐NEW
-30. 🔧 **Healthcare APIs (FHIR)** - privatelink.azurehealthcareapis.com ⭐NEW
+29. 🔧 **Azure Cache for Redis Enterprise (legacy)** - privatelink.redisenterprise.cache.azure.net
+30. 🔧 **Azure Managed Redis** - privatelink.redis.azure.net
+31. 🔧 **Healthcare APIs (FHIR)** - privatelink.azurehealthcareapis.com ⭐NEW
 
 ### Batch (1)
 31. 🔧 **Batch (nodeManagement)** - privatelink.batch.azure.com
@@ -172,7 +173,7 @@ The Bicep template automatically:
 | **Total Policies** | ~45 | **59** |
 | **AI Foundry** | 1 zone (incomplete) | **3 zones (complete)** ✅ |
 | **MongoDB vCore** | ❌ Not supported | ✅ Supported |
-| **Redis Enterprise** | ❌ Not supported | ✅ Supported |
+| **Azure Cache for Redis Enterprise / Azure Managed Redis** | ❌ Not supported | ✅ Supported |
 | **MySQL Flexible** | ❌ Not differentiated | ✅ Separate config |
 | **Healthcare APIs** | ❌ Not supported | ✅ Supported |
 | **Regional Zones** | ❌ No regional specificity | ✅ AKS and Backup by region |

@@ -13,8 +13,10 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'Assert-SmokeTestSubscription.ps1')
 
 function Invoke-AzJson([string[]] $Arguments) {
+    $Arguments += @('--subscription', $SubscriptionId)
     $output = $null
     for ($attempt = 1; $attempt -le 4; $attempt++) {
         $output = & az @Arguments --only-show-errors 2>&1 | Out-String
@@ -31,10 +33,7 @@ function Invoke-AzJson([string[]] $Arguments) {
     return $output | ConvertFrom-Json -Depth 100
 }
 
-$null = & az account set --subscription $SubscriptionId
-if ($LASTEXITCODE -ne 0) {
-    throw "Unable to select subscription '$SubscriptionId'."
-}
+$SubscriptionId = Assert-SmokeTestSubscription -SubscriptionId $SubscriptionId
 
 $now = [DateTimeOffset]::UtcNow
 $groups = @(Invoke-AzJson @('group', 'list', '--tag', 'purpose=dns-policy-smoke', '--output', 'json'))
@@ -72,7 +71,7 @@ foreach ($policySet in $policySets | Where-Object { $_.name -like "$smokePrefix*
     $suffix = $policySet.name.Substring($smokePrefix.Length)
     if (-not $activeSuffixes.ContainsKey($suffix)) {
         Write-Host "Removing orphaned smoke policy set '$($policySet.name)'."
-        $null = & az policy set-definition delete --management-group $ManagementGroupId --name $policySet.name --only-show-errors
+        $null = & az policy set-definition delete --management-group $ManagementGroupId --name $policySet.name --subscription $SubscriptionId --only-show-errors
         if ($LASTEXITCODE -ne 0) { throw "Unable to delete '$($policySet.name)'." }
     }
 }
@@ -85,7 +84,7 @@ foreach ($definition in $definitions | Where-Object {
     $suffix = $definition.metadata.version -replace '^smoke-', ''
     if (-not $activeSuffixes.ContainsKey($suffix)) {
         Write-Host "Removing orphaned smoke policy definition '$($definition.name)'."
-        $null = & az policy definition delete --management-group $ManagementGroupId --name $definition.name --only-show-errors
+        $null = & az policy definition delete --management-group $ManagementGroupId --name $definition.name --subscription $SubscriptionId --only-show-errors
         if ($LASTEXITCODE -ne 0) { throw "Unable to delete '$($definition.name)'." }
     }
 }

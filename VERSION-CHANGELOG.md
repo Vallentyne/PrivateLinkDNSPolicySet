@@ -1,8 +1,17 @@
 # Private DNS Policy Set - Version Changelog
 
+## v7 (October 2, 2026) - Azure Managed Redis Private DNS
+
+**Total Policy References: 59** (25 built-in + 34 custom), covering 60 DNS zone configurations.
+
+### Added in v7:
+- Adds custom DNS policy coverage for Azure Managed Redis (`Microsoft.Cache/redisEnterprise`) using the `redisEnterprise` private endpoint group and `privatelink.redis.azure.net`.
+- Keeps the legacy Azure Cache for Redis Enterprise mapping (`redisCache` and `privatelink.redisenterprise.cache.azure.net`) separate.
+- Extends the smoke harness to deploy a minimal Managed Redis cache and its default database, then verify the private endpoint DNS zone group and A record.
+
 ## v6 (August 19, 2026) - Azure Batch DNS Correction
 
-**Total Policies: 59** (25 built-in + 34 custom)
+**Total Policy References: 58** (25 built-in + 33 custom), covering 59 DNS zone configurations.
 
 ### Changed in v6:
 - Replaced four legacy regional Azure Batch configurations with the current global `privatelink.batch.azure.com` zone.

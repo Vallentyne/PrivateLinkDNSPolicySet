@@ -36,6 +36,7 @@ $EndpointTemplate = Join-Path $PSScriptRoot 'private-endpoints.bicep'
 $PolicyTemplate = Join-Path $RepoRoot 'pubsecDNS.bicep'
 $PolicyParameters = Join-Path $RepoRoot 'pubsecDNS.parameters.json'
 $CoverageTest = Join-Path $RepoRoot 'Test-PolicyCoverage.ps1'
+. (Join-Path $PSScriptRoot 'Assert-SmokeTestSubscription.ps1')
 
 $normalizedRunId = ($RunId.ToLowerInvariant() -replace '[^a-z0-9]', '')
 if ($normalizedRunId.Length -lt 3) {
@@ -54,6 +55,9 @@ $ExpectedPolicies = @(
     [pscustomobject]@{ Name = 'machine-learning'; BuiltInId = 'ee40564d-486e-4f68-a5ca-7a621edae0fb'; Namespace = $null; GroupId = $null }
     [pscustomobject]@{ Name = 'app-configuration'; BuiltInId = $null; Namespace = 'Microsoft.AppConfiguration/configurationStores'; GroupId = 'configurationStores' }
     [pscustomobject]@{ Name = 'ai-services'; BuiltInId = $null; Namespace = 'Microsoft.CognitiveServices/accounts'; GroupId = 'account' }
+    [pscustomobject]@{ Name = 'managed-redis'; BuiltInId = $null; Namespace = 'Microsoft.Cache/redisEnterprise'; GroupId = 'redisEnterprise' }
+    [pscustomobject]@{ Name = 'batch-account'; BuiltInId = '4ec38ebc-381f-45ee-81a4-acbc4be878f8'; Namespace = $null; GroupId = $null }
+    [pscustomobject]@{ Name = 'batch-node-management'; BuiltInId = $null; Namespace = 'Microsoft.Batch/batchAccounts'; GroupId = 'nodeManagement' }
 )
 
 function Write-Step([string] $Message) {
@@ -67,6 +71,10 @@ function Invoke-AzCli {
 
         [switch] $Json
     )
+
+    if ($Arguments[0] -ne 'bicep') {
+        $Arguments += @('--subscription', $SubscriptionId)
+    }
 
     $output = $null
     for ($attempt = 1; $attempt -le 4; $attempt++) {
@@ -103,15 +111,13 @@ function Assert-AzureContext {
         throw 'SubscriptionId and ManagementGroupId are required for Azure actions.'
     }
 
-    $null = Invoke-AzCli -Arguments @('account', 'set', '--subscription', $SubscriptionId)
-    $account = Invoke-AzCli -Arguments @('account', 'show', '--output', 'json') -Json
-    if ($account.id -ne $SubscriptionId) {
-        throw "Azure CLI selected subscription '$($account.id)' instead of '$SubscriptionId'."
-    }
+    $script:SubscriptionId = Assert-SmokeTestSubscription -SubscriptionId $SubscriptionId
 }
 
 function Invoke-Validation {
     Write-Step 'Running static policy and Bicep validation'
+    & (Join-Path $PSScriptRoot 'Test-SmokeTestSubscription.ps1')
+    & (Join-Path $PSScriptRoot 'Test-EndpointDns.ps1')
     & $CoverageTest
     if ($LASTEXITCODE -ne 0) {
         throw 'Test-PolicyCoverage.ps1 failed.'
@@ -128,6 +134,8 @@ function Register-TestProviders {
     $providers = @(
         'Microsoft.AppConfiguration'
         'Microsoft.Authorization'
+        'Microsoft.Batch'
+        'Microsoft.Cache'
         'Microsoft.CognitiveServices'
         'Microsoft.KeyVault'
         'Microsoft.Insights'
@@ -291,6 +299,11 @@ function Invoke-Deployment {
         "appConfigurationResourceId=$($foundationOutputs.targetResourceIds.value.appConfiguration)",
         "aiServicesResourceId=$($foundationOutputs.targetResourceIds.value.aiServices)",
         "machineLearningResourceId=$($foundationOutputs.targetResourceIds.value.machineLearning)",
+        "batchResourceId=$($foundationOutputs.targetResourceIds.value.batch)",
+        "batchSecondaryResourceId=$($foundationOutputs.targetResourceIds.value.batchSecondary)",
+        "batchSecondaryAccountName=$($foundationOutputs.batchSecondaryAccountName.value)",
+        "batchSecondaryNodeRecordName=$($foundationOutputs.batchSecondaryNodeRecordName.value)",
+        "managedRedisResourceId=$($foundationOutputs.targetResourceIds.value.managedRedis)",
         '--query', 'properties.outputs',
         '--output', 'json'
     ) -Json
@@ -391,7 +404,22 @@ function Test-EndpointDns($TestCase) {
             '--zone-name', $zone,
             '--output', 'json'
         ) -Json)
-        $recordIps = @($recordSets | ForEach-Object { $_.aRecords } | ForEach-Object { $_.ipv4Address })
+        $expectedRecordNamesProperty = $TestCase.PSObject.Properties['expectedRecordNames']
+        [string[]] $expectedRecordNames = @(
+            if ($expectedRecordNamesProperty) {
+                $expectedRecordNamesProperty.Value | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+            }
+        )
+        $matchingRecordSets = if (@($expectedRecordNames).Count -gt 0) {
+            @($recordSets | Where-Object { $_.name -in $expectedRecordNames })
+        } else {
+            $recordSets
+        }
+        if (@($expectedRecordNames).Count -gt 0 -and @($matchingRecordSets).Count -ne @($expectedRecordNames).Count) {
+            $actualRecordNames = @($recordSets.name | Sort-Object -Unique)
+            return "zone '$zone' is missing expected A record set(s) [$($expectedRecordNames -join ', ')]; actual [$($actualRecordNames -join ', ')]"
+        }
+        $recordIps = @($matchingRecordSets | ForEach-Object { $_.aRecords } | ForEach-Object { $_.ipv4Address })
         if (-not ($endpointIps | Where-Object { $_ -in $recordIps })) {
             return "zone '$zone' has no A record for endpoint IP [$($endpointIps -join ', ')]"
         }
@@ -434,12 +462,28 @@ function Invoke-PolicyTest($DeploymentResult) {
     $testCases = if ($DeploymentResult) {
         $DeploymentResult.TestCases
     } else {
+        $batchSecondary = Invoke-AzCli -Arguments @(
+            'batch', 'account', 'show',
+            '--name', "basesmoke$NameSuffix",
+            '--resource-group', $ResourceGroupName,
+            '--output', 'json'
+        ) -Json
+        if ([string]::IsNullOrWhiteSpace($batchSecondary.nodeManagementEndpoint) -or
+            -not $batchSecondary.nodeManagementEndpoint.EndsWith('.batch.azure.com')) {
+            throw 'The secondary Batch account has no valid node-management endpoint.'
+        }
+        $batchSecondaryNodeRecordName = $batchSecondary.nodeManagementEndpoint -replace '\.batch\.azure\.com$', ''
         @(
             [pscustomobject]@{ endpointName = "pe-storage-blob-$NameSuffix"; expectedZones = @('privatelink.blob.core.windows.net') }
             [pscustomobject]@{ endpointName = "pe-key-vault-$NameSuffix"; expectedZones = @('privatelink.vaultcore.azure.net') }
             [pscustomobject]@{ endpointName = "pe-app-configuration-$NameSuffix"; expectedZones = @('privatelink.azconfig.io') }
             [pscustomobject]@{ endpointName = "pe-ai-services-$NameSuffix"; expectedZones = @('privatelink.cognitiveservices.azure.com', 'privatelink.openai.azure.com', 'privatelink.services.ai.azure.com') }
             [pscustomobject]@{ endpointName = "pe-machine-learning-$NameSuffix"; expectedZones = @('privatelink.api.azureml.ms', 'privatelink.notebooks.azure.net') }
+            [pscustomobject]@{ endpointName = "pe-managed-redis-$NameSuffix"; expectedZones = @('privatelink.redis.azure.net') }
+            [pscustomobject]@{ endpointName = "pe-batch-account-$NameSuffix"; expectedZones = @('privatelink.batch.azure.com') }
+            [pscustomobject]@{ endpointName = "pe-batch-node-management-$NameSuffix"; expectedZones = @('privatelink.batch.azure.com') }
+            [pscustomobject]@{ endpointName = "pe-batch-account-canada-east-$NameSuffix"; expectedZones = @('privatelink.batch.azure.com'); expectedRecordNames = @("basesmoke$NameSuffix.canadaeast") }
+            [pscustomobject]@{ endpointName = "pe-batch-node-management-canada-east-$NameSuffix"; expectedZones = @('privatelink.batch.azure.com'); expectedRecordNames = @($batchSecondaryNodeRecordName) }
         )
     }
 
@@ -533,8 +577,15 @@ switch ($Action) {
         $null = Invoke-Deployment
     }
     'Test' {
-        $testCases = Invoke-PolicyTest
-        Write-TestResult -Status 'Passed' -TestCases $testCases -ErrorMessage $null
+        $testCases = @()
+        try {
+            $testCases = Invoke-PolicyTest
+            Write-TestResult -Status 'Passed' -TestCases $testCases -ErrorMessage $null
+        }
+        catch {
+            Write-TestResult -Status 'Failed' -TestCases $testCases -ErrorMessage $_.Exception.Message
+            throw
+        }
     }
     'Destroy' {
         Remove-TestEnvironment

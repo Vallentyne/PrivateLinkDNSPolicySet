@@ -594,6 +594,17 @@
             "customReason": "Different resource type (RedisEnterprise) - no built-in policy available"
         },
         {
+            "logicalService": "Azure Managed Redis",
+            "category": "Cache",
+            "resourceNamespace": "Microsoft.Cache/redisEnterprise",
+            "groupId": "redisEnterprise",
+            "dnsZone": "privatelink.redis.azure.net",
+            "filterLocationLike": "*",
+            "policyType": "custom",
+            "builtInPolicyId": null,
+            "customReason": "Azure Managed Redis uses the redisEnterprise Private Link group and its own DNS zone; no built-in policy is available"
+        },
+        {
             "logicalService": "Azure Backup - Recovery Services Vault (Canada Central)",
             "category": "Backup & Recovery",
             "resourceNamespace": "Microsoft.RecoveryServices/vaults",

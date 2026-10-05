@@ -8,6 +8,9 @@ param location string = resourceGroup().location
 @maxLength(12)
 param nameSuffix string
 
+@description('Second Azure region used to validate regional Batch DNS records.')
+param batchSecondaryLocation string = 'canadaeast'
+
 @description('Tags applied to every smoke-test resource that supports tags.')
 param tags object = {}
 
@@ -22,6 +25,8 @@ var dnsZoneNames = [
   'privatelink.services.ai.azure.com'
   'privatelink.api.azureml.ms'
   'privatelink.notebooks.azure.net'
+  'privatelink.batch.azure.com'
+  'privatelink.redis.azure.net'
 ]
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-05-01' = {
@@ -138,12 +143,64 @@ resource machineLearningWorkspace 'Microsoft.MachineLearningServices/workspaces@
   }
 }
 
+resource batchAccount 'Microsoft.Batch/batchAccounts@2024-07-01' = {
+  name: 'basmoke${nameSuffix}'
+  location: location
+  tags: tags
+  properties: {
+    poolAllocationMode: 'BatchService'
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+resource batchAccountSecondary 'Microsoft.Batch/batchAccounts@2024-07-01' = {
+  name: 'basesmoke${nameSuffix}'
+  location: batchSecondaryLocation
+  tags: tags
+  properties: {
+    poolAllocationMode: 'BatchService'
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+resource managedRedis 'Microsoft.Cache/redisEnterprise@2025-07-01' = {
+  name: 'redis-smoke-${nameSuffix}'
+  location: location
+  tags: tags
+  sku: {
+    name: 'Balanced_B0'
+  }
+  properties: {
+    encryption: {}
+    highAvailability: 'Disabled'
+    minimumTlsVersion: '1.2'
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
+resource managedRedisDatabase 'Microsoft.Cache/redisEnterprise/databases@2025-07-01' = {
+  parent: managedRedis
+  name: 'default'
+  properties: {
+    clientProtocol: 'Encrypted'
+    clusteringPolicy: 'OSSCluster'
+    evictionPolicy: 'VolatileLRU'
+    modules: []
+    port: 10000
+  }
+}
+
 output subnetId string = privateEndpointSubnet.id
 output targetResourceIds object = {
   aiServices: aiServices.id
   appConfiguration: appConfiguration.id
+  batch: batchAccount.id
+  batchSecondary: batchAccountSecondary.id
   keyVault: keyVault.id
+  managedRedis: managedRedis.id
   machineLearning: machineLearningWorkspace.id
   storageBlob: storageAccount.id
 }
+output batchSecondaryAccountName string = batchAccountSecondary.name
+output batchSecondaryNodeRecordName string = replace(batchAccountSecondary.properties.nodeManagementEndpoint, '.batch.azure.com', '')
 output dnsZoneNames array = dnsZoneNames
