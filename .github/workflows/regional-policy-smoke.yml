@@ -1,0 +1,84 @@
+name: Regional policy smoke test
+
+on:
+  workflow_dispatch:
+    inputs:
+      primary_location:
+        description: First private endpoint and DNS target region
+        required: true
+        default: canadacentral
+        type: string
+      secondary_location:
+        description: Second private endpoint and DNS target region
+        required: true
+        default: canadaeast
+        type: string
+      keep_on_failure:
+        description: Retain a failed environment for up to six hours
+        required: true
+        default: false
+        type: boolean
+  schedule:
+    - cron: '30 5 * * 1'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: dns-regional-policy-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    environment: dns-policy-smoke
+    env:
+      PRIMARY_LOCATION: ${{ inputs.primary_location || 'canadacentral' }}
+      SECONDARY_LOCATION: ${{ inputs.secondary_location || 'canadaeast' }}
+      RUN_ID: rgha${{ github.run_id }}${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sign in to Azure with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run regional smoke test
+        shell: pwsh
+        run: |
+          $parameters = @{
+            Action = 'All'
+            SubscriptionId = '${{ vars.AZURE_SUBSCRIPTION_ID }}'
+            ManagementGroupId = '${{ vars.AZURE_POLICY_MANAGEMENT_GROUP_ID }}'
+            PrimaryLocation = $env:PRIMARY_LOCATION
+            SecondaryLocation = $env:SECONDARY_LOCATION
+            RunId = $env:RUN_ID
+          }
+          if ('${{ inputs.keep_on_failure }}' -eq 'true') {
+            $parameters.KeepOnFailure = $true
+          }
+          ./regional-routing/tests/Invoke-RegionalRoutingTest.ps1 @parameters
+
+      - name: Ensure regional smoke environment is removed
+        if: ${{ failure() && inputs.keep_on_failure != true }}
+        shell: pwsh
+        run: |
+          ./regional-routing/tests/Invoke-RegionalRoutingTest.ps1 `
+            -Action Destroy `
+            -SubscriptionId '${{ vars.AZURE_SUBSCRIPTION_ID }}' `
+            -ManagementGroupId '${{ vars.AZURE_POLICY_MANAGEMENT_GROUP_ID }}' `
+            -RunId $env:RUN_ID
+
+      - name: Upload regional smoke result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dns-regional-policy-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          path: regional-routing/tests/results/*.json
+          if-no-files-found: warn
+          retention-days: 30

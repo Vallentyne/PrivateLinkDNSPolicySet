@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "regionsPerRoute": 2,
+  "routes": [
+    {
+      "key": "blob",
+      "targetResourceKey": "storageBlob",
+      "resourceNamespace": "Microsoft.Storage/storageAccounts",
+      "groupId": "blob",
+      "expectedZones": [
+        "privatelink.blob.core.windows.net"
+      ]
+    },
+    {
+      "key": "vault",
+      "targetResourceKey": "keyVault",
+      "resourceNamespace": "Microsoft.KeyVault/vaults",
+      "groupId": "vault",
+      "expectedZones": [
+        "privatelink.vaultcore.azure.net"
+      ]
+    },
+    {
+      "key": "appconfig",
+      "targetResourceKey": "appConfiguration",
+      "resourceNamespace": "Microsoft.AppConfiguration/configurationStores",
+      "groupId": "configurationStores",
+      "expectedZones": [
+        "privatelink.azconfig.io"
+      ]
+    },
+    {
+      "key": "aiservices",
+      "targetResourceKey": "aiServices",
+      "resourceNamespace": "Microsoft.CognitiveServices/accounts",
+      "groupId": "account",
+      "expectedZones": [
+        "privatelink.cognitiveservices.azure.com",
+        "privatelink.openai.azure.com",
+        "privatelink.services.ai.azure.com"
+      ]
+    },
+    {
+      "key": "batch",
+      "targetResourceKey": "batch",
+      "resourceNamespace": "Microsoft.Batch/batchAccounts",
+      "groupId": "batchAccount",
+      "expectedZones": [
+        "privatelink.batch.azure.com"
+      ]
+    },
+    {
+      "key": "batchnode",
+      "targetResourceKey": "batch",
+      "resourceNamespace": "Microsoft.Batch/batchAccounts",
+      "groupId": "nodeManagement",
+      "expectedZones": [
+        "privatelink.batch.azure.com"
+      ]
+    }
+  ]
+}

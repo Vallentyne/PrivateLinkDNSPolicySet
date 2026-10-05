@@ -1,0 +1,32 @@
+name: Regional policy validation
+
+on:
+  pull_request:
+    paths:
+      - 'regional-routing/**'
+      - '.github/workflows/regional-policy-validation.yml'
+      - '.github/workflows/regional-policy-smoke.yml'
+      - '.github/workflows/regional-cleanup-expired.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'regional-routing/**'
+      - '.github/workflows/regional-policy-validation.yml'
+      - '.github/workflows/regional-policy-smoke.yml'
+      - '.github/workflows/regional-cleanup-expired.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate regional policy and smoke templates
+        shell: pwsh
+        run: ./regional-routing/tests/Invoke-RegionalRoutingTest.ps1 -Action Validate

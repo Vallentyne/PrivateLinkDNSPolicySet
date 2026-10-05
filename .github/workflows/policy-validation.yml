@@ -7,6 +7,8 @@ on:
       - '**/*.json'
       - '**/*.ps1'
       - '.github/workflows/**'
+      - '!regional-routing/**'
+      - '!.github/workflows/regional-*.yml'
   push:
     branches:
       - main
@@ -15,6 +17,8 @@ on:
       - '**/*.json'
       - '**/*.ps1'
       - '.github/workflows/**'
+      - '!regional-routing/**'
+      - '!.github/workflows/regional-*.yml'
   workflow_dispatch:
 
 permissions:
